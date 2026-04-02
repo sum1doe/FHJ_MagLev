@@ -58,16 +58,13 @@ typedef struct PIDStruct {
     double prevI;
 } PID;
 
-PID* initPID(double kp, double ki, double kd);
-void initAllPIDs();
-void updatePID(PID* pid, double data, double sp);
-double getCV(PID* pid);
-void delPID(PID* pid);
+// PID* initPID(double kp, double ki, double kd);
+// void initAllPIDs();
+// void updatePID(PID* pid, double data, double sp);
+// double getCV(PID* pid);
+// void delPID(PID* pid);
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
-
-extern PID* position;
-extern PID* velocity;
-extern PID* acceleration;
+int sp = 0;
 
 // And now, functions!
 
@@ -207,7 +204,8 @@ interrupt void  ISRadc(void)
     md = median(hallBuffer, useful_len);
 
     // BLDC PWM
-    potValue = tempADC[0];
+    sp = tempADC[0];
+    currentcurrent = tempADC[1];
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
