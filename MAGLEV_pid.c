@@ -11,6 +11,7 @@
 #include "F2806x_Device.h"     // DSP2833x Headerfile Include File
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
+#include "PID_VALS.h"
 
 #ifndef DataBuffer
 #define DataBuffer 5
@@ -72,10 +73,11 @@ PID acceleration = {};
 PID current = {};
 
 void initAllPIDs() {
-    initPID(&position, 1,0.0,0);
-    initPID(&velocity, 2,0.0,0);
-    initPID(&acceleration,3,0.0,0);
-    initPID(&current,3,0.0,0);
+    // Refer to PID_VALS.h to configure these.
+    initPID(&position, POS_P, POS_I, POS_D);
+    initPID(&velocity, VEL_P, VEL_I, VEL_D);
+    initPID(&acceleration, ACC_P, ACC_I, ACC_D);
+    initPID(&current, CUR_P, CUR_I, CUR_D);
 }
 
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl) {
