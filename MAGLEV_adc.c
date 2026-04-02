@@ -58,16 +58,15 @@ typedef struct PIDStruct {
     double prevI;
 } PID;
 
-PID* initPID(double kp, double ki, double kd);
+// PID* initPID(double kp, double ki, double kd);
 void initAllPIDs();
-void updatePID(PID* pid, double data, double sp);
-double getCV(PID* pid);
-void delPID(PID* pid);
+// void updatePID(PID* pid, double data, double sp);
+// double getCV(PID* pid);
+// void delPID(PID* pid);
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
-
-extern PID* position;
-extern PID* velocity;
-extern PID* acceleration;
+int sp = 0;
+int currentcurrent = 0; // in mA
+double duty_percent = 0;
 
 // And now, functions!
 
@@ -178,9 +177,6 @@ void InitAdcRegs(void)
     loop = 0;
 
     initAllPIDs();
-    updatePID(position, 1.1, 1.2);
-    updatePID(velocity, 2.1, 2.2);
-    updatePID(acceleration, 3.1, 3.2);
 
     EDIS;
 }
@@ -207,7 +203,8 @@ interrupt void  ISRadc(void)
     md = median(hallBuffer, useful_len);
 
     // BLDC PWM
-    potValue = tempADC[0];
+    sp = tempADC[0];
+    currentcurrent = tempADC[1];
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
@@ -217,8 +214,14 @@ interrupt void  ISRadc(void)
     // 1: velocity
     // 2: acceleration
     // 3: current
-    stepPIDs(0, sp, 3, currentcurrent, *duty);
-    // Duty should be 0-4500, stepPIDs does scale to this.
+    stepPIDs(0.0,
+             (double)sp/4096*2300,
+             3.0,
+             (double) currentcurrent*2300/4096,
+             &duty_percent);
+    // Duty should be 0-4500, stepPIDs returns PWM%
+    // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
+    duty = duty_percent * (0 <= duty_percent && duty_percent <= 4500) + 4500 * (duty_percent > 4500);
 
     EPwm1Regs.CMPA.half.CMPA = duty;
     EPwm1Regs.CMPB = 0;
