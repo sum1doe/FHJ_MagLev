@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "path": ""
+    }
+  ],
+  "settings": {
+    "CCS.debug.variable.showType": true,
+    "CCS.debug.variable.showAddress": false
+  }
+}
