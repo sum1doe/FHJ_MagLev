@@ -3,3 +3,5 @@ Release/
 .theia/
 .launches/
 temp/
+.ccsproject
+.cproject
