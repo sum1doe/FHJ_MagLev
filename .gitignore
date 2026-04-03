@@ -1,3 +1,5 @@
-Release/*
-Debug/*
+Debug/
+Release/
+.theia/
+.launches/
 temp/

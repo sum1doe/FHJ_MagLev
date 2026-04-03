@@ -187,15 +187,15 @@ interrupt void  ISRadc(void)
     // entered every 0.1ms
     // ADC read
 
-    tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0];
-    tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0];
-    tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0];
-    tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0];
+    tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0]; // Pot1
+    tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
+    tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0]; // Pot3
+    tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0]; // Hall
     hallBuffer[hallIndex] = tempADC[3];
     hallIndex = (hallIndex+1)%BufferSize;
 
     // hallIndex is only 0 here after a full buffer has been written.
-    loop = loop || hallIndex == 0;
+    loop = loop || (hallIndex == 0);
 
     int useful_len = loop ? BufferSize : hallIndex;
 
