@@ -230,7 +230,7 @@ interrupt void  ISRadc(void)
     sp = tempADC[0];
     currentcurrent = tempADC[4];
 
-    potValue - tempADC[0];
+    potValue = tempADC[0];
 
     duty = (Uint16)((float)potValue/4095*4500);
     if(duty > pwmPeriod) duty = pwmPeriod;
