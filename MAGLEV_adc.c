@@ -229,9 +229,9 @@ interrupt void  ISRadc(void)
     // BLDC PWM
     sp = tempADC[0];
     currentcurrent = tempADC[4];
-    // duty = (Uint16)((float)potValue/4095*4500);
-    // if(duty > pwmPeriod) duty = pwmPeriod;
-    // else if(duty < 10) duty = 0;
+    duty = (Uint16)((float)potValue/4095*4500);
+    if(duty > pwmPeriod) duty = pwmPeriod;
+    else if(duty < 10) duty = 0;
 
     // SPModes:
     // 0: position
@@ -245,8 +245,10 @@ interrupt void  ISRadc(void)
              &duty_percent);
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
-    duty_percent = 45*duty_percent;
-    duty = duty_percent * (0 <= duty_percent && duty_percent <= 4500) + 4500 * (duty_percent > 4500);
+    // duty = 45*duty_percent;
+    // duty = duty * (0 <= duty && duty <= 4499) + 4499 * (duty > 4500);
+
+
 
     EPwm1Regs.CMPA.half.CMPA = duty;
     EPwm1Regs.CMPB = 0;
