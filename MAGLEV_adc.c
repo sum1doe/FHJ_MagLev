@@ -228,7 +228,7 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
-    currentcurrent = tempADC[1];
+    currentcurrent = tempADC[4];
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
