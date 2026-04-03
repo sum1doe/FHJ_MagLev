@@ -1,6 +1,3 @@
-Debug/.clangd/.cache
-Debug/.clangd/.cache/clangd/index/MAGLEV_adc.c.0798F9A16148D85A.idx
-Debug/.clangd/.cache/clangd/index/MAGLEV_pid.c.543331AA32F6E2DA.idx
 Release/*
 Debug/*
 temp/
