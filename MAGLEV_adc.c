@@ -245,6 +245,7 @@ interrupt void  ISRadc(void)
              &duty_percent);
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
+    duty_percent = 45*duty_percent;
     duty = duty_percent * (0 <= duty_percent && duty_percent <= 4500) + 4500 * (duty_percent > 4500);
 
     EPwm1Regs.CMPA.half.CMPA = duty;
