@@ -228,7 +228,7 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
-    currentcurrent = tempADC[4];
+    currentcurrent = 2048-tempADC[4];
 
     potValue = tempADC[0];
 
@@ -243,8 +243,8 @@ interrupt void  ISRadc(void)
     // 3: current
     stepPIDs(0.0,
              (double)sp/4096*2300,
-             3.0,
-             (double) currentcurrent*2300/4096,
+             3,
+             (double) currentcurrent,
              &duty_percent);
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
