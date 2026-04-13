@@ -233,6 +233,8 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
+    if (sp > 2300) sp = 2300;
+    else if (sp < 10) sp = 0;
     currentcurrent = 2048-tempADC[4];
 
     potValue = tempADC[0];
