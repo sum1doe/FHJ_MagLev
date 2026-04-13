@@ -66,7 +66,7 @@ void initAllPIDs();
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 int sp = 0;
 int currentcurrent = 0; // in mA
-double duty_percent = 0;
+double duty_cv = 0;
 
 // And now, functions!
 
@@ -237,9 +237,9 @@ interrupt void  ISRadc(void)
 
     potValue = tempADC[0];
 
-    duty = (Uint16)((float)potValue/4095*4500);
-    if(duty > pwmPeriod) duty = pwmPeriod;
-    else if(duty < 10) duty = 0;
+    // duty = (Uint16)((float)potValue/4095*4500);
+    // if(duty > pwmPeriod) duty = pwmPeriod;
+    // else if(duty < 10) duty = 0;
 
     // SPModes:
     // 0: position
@@ -250,10 +250,12 @@ interrupt void  ISRadc(void)
              (double)sp/4096*2300,
              3,
              (double) currentcurrent,
-             &duty_percent);
+             &duty_cv);
+
+    duty = (int16_t) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%
-    // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
-    // duty = 45*duty_percent;
+    // duty_cv becomes 0 if duty_cv below 0, 4500 if duty_cv above 4500
+    // duty = 45*duty_cv;
     // duty = duty * (0 <= duty && duty <= 4499) + 4499 * (duty > 4500);
 
 
@@ -267,7 +269,6 @@ interrupt void  ISRadc(void)
 
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
-
     return;
 }
 //===========================================================================

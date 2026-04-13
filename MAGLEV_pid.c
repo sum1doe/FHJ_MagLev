@@ -67,6 +67,14 @@ double getCV(PID* pid) {
     return pid->cv;
 }
 
+// Decent approximation from data gathered.
+// https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C7%7D%2C%7B5%2C219%7D%2C%7B33%2C405%7D%2C%7B99%2C606%7D%2C%7B211%2C830%7D%2C%7B338%2C1024%7D%2C%7B456%2C1155%7D%2C%7B629%2C1374%7D%2C%7B816%2C1555%7D%2C%7B1088%2C1812%7D%2C%7B1346%2C2020%7D%2C%7B1749%2C2304%7D%2C%7B2228%2C2610%7D%2C%7B2515%2C2830%7D%7Dpower+fit 
+double current2duty(double current) {
+    return 55.6*sqrt(current);
+}
+
+
+
 PID position = {};
 PID velocity = {};
 PID acceleration = {};
@@ -125,9 +133,6 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     // TODO Lookup Table for acceleration -> Current.
     curr_sp = curr_sp * (-2300 <= curr_sp && curr_sp <= 2300) + 2300 * (curr_sp > 2300) - 2300 * (curr_sp < -2300);
 
-    updatePID(&current, currentCurrent, curr_sp);
-    double cv = getCV(&current);
-
     // Output value.
-    *pwmControl = cv;
+    *pwmControl = current2duty(curr_sp);
 }
