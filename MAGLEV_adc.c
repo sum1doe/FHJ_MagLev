@@ -189,6 +189,10 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
+    // Current C
+    AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x0F; // Ch = ADCINB7
+    AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
+    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     for (i = 0; i < BufferSize; i++) {
@@ -215,6 +219,7 @@ interrupt void  ISRadc(void)
     tempADC[4]  = (int16)(AdcResult.ADCRESULT4  & 0xFFF);// - uOffsetCh[0]; // IA
     tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
     tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
+    tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
     hallBuffer[hallIndex] = tempADC[3];
     hallIndex = (hallIndex+1)%BufferSize;
 
@@ -245,7 +250,7 @@ interrupt void  ISRadc(void)
              (double)sp/4096*2300,
              3,
              (double) currentcurrent,
-             &duty_percent);
+             &duty_percent);z
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
     // duty = 45*duty_percent;
