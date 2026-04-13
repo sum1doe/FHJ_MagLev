@@ -252,7 +252,7 @@ interrupt void  ISRadc(void)
              (double) currentcurrent,
              &duty_cv);
 
-    duty = (int16_t) duty_cv;
+    duty = (int16) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_cv becomes 0 if duty_cv below 0, 4500 if duty_cv above 4500
     // duty = 45*duty_cv;
