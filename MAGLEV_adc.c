@@ -250,7 +250,7 @@ interrupt void  ISRadc(void)
              (double)sp/4096*2300,
              3,
              (double) currentcurrent,
-             &duty_percent);z
+             &duty_percent);
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_percent becomes 0 if duty_percent below 0, 4500 if duty_percent above 4500
     // duty = 45*duty_percent;
