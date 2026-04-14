@@ -11,7 +11,6 @@
 #include "F2806x_Device.h"     // DSP2833x Headerfile Include File
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
-#include "PID_VALS.h"
 #include "math.h"
 
 #ifndef DataBuffer
