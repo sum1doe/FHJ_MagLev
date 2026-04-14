@@ -49,6 +49,10 @@ void InitInterrupts(void)
     EDIS;
 }
 
+extern Uint16  pwmPeriod;
+extern Uint16  duty;
+Uint16 DutyLimit = pwmPeriod;
+
 // Timer0 interrupt service routine
 __attribute__((ramfunc))
 interrupt void timerISR(void)
@@ -56,6 +60,13 @@ interrupt void timerISR(void)
     EINT;
     CpuTimer0.InterruptCount++;
     // entered every 1ms
+
+    if (tempADC[7] < 850) {
+        DutyLimit = duty - 1;
+    }
+    else if (tempADC[7] > 900 && DutyLimit < ) {
+        DutyLimit+=1;
+    }
 
     if(!(CpuTimer0.InterruptCount % 100)){ 
         // implement position control

@@ -36,6 +36,7 @@ Uint16 Hall_A, Hall_B, Hall_C, Hall;
 
 Uint16 duty = 0; // PWM signal for top switches //
 extern Uint16  pwmPeriod;
+extern Uint16  DutyLimit;
 
 extern int dir; // Direction of rotation;  CW - 1, CCW - 0//
 Uint16 potValue;
@@ -261,6 +262,7 @@ interrupt void  ISRadc(void)
     // duty = duty * (0 <= duty && duty <= 4499) + 4499 * (duty > 4500);
 
 
+    duty = duty > DutyLimit ? DutyLimit : duty;
 
     EPwm1Regs.CMPA.half.CMPA = duty;
     EPwm1Regs.CMPB = 0;
