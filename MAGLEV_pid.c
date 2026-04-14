@@ -12,7 +12,7 @@
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
 #include "PID_VALS.h"
-#include "math.h"
+// #include "math.h"
 
 #ifndef DataBuffer
 #define DataBuffer 5
@@ -42,6 +42,10 @@ void updatePID(PID* pid, double data, double sp);
 double getCV(PID* pid);
 void delPID(PID* pid);
 
+// TODO: Debugging, remove this later
+double sqrt(double input) {
+    return 1.0;
+}
     
 void initPID(PID* pid, double kp, double ki, double kd) {
     pid->kp = kp;
