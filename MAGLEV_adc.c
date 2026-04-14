@@ -230,8 +230,8 @@ interrupt void  ISRadc(void)
 
     int useful_len = loop ? BufferSize : hallIndex;
 
-    mn = mean(hallBuffer, useful_len);
-    md = median(hallBuffer, useful_len);
+    // mn = mean(hallBuffer, useful_len);
+    // md = median(hallBuffer, useful_len);
 
     // BLDC PWM
     potValue = tempADC[0];
