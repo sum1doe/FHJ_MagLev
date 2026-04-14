@@ -173,9 +173,9 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC3CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current A
-    AdcRegs.ADCSOC4CTL.bit.CHSEL    = 0x00; // Ch = ADCINA0
-    AdcRegs.ADCSOC4CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC4CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    // AdcRegs.ADCSOC4CTL.bit.CHSEL    = 0x00; // Ch = ADCINA0
+    // AdcRegs.ADCSOC4CTL.bit.TRIGSEL  = 5;    // Same trigger
+    // AdcRegs.ADCSOC4CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     // Current B
@@ -189,10 +189,10 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
-    // Voltage
-    AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x0F; // Ch = ADCINB7
-    AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    // // Voltage
+    // AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x0F; // Ch = ADCINB7
+    // AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
+    // AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     for (i = 0; i < BufferSize; i++) {
@@ -216,10 +216,10 @@ interrupt void  ISRadc(void)
     tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
     tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0]; // Pot3
     tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0]; // Hall
-    tempADC[4]  = (int16)(AdcResult.ADCRESULT4  & 0xFFF);// - uOffsetCh[0]; // IA
+    // tempADC[4]  = (int16)(AdcResult.ADCRESULT4  & 0xFFF);// - uOffsetCh[0]; // IA
     tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
     tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
-    tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
+    // tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
     hallBuffer[hallIndex] = tempADC[3];
     hallIndex = (hallIndex+1)%BufferSize;
 
