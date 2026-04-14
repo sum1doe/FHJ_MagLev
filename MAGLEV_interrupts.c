@@ -61,10 +61,10 @@ interrupt void timerISR(void)
     CpuTimer0.InterruptCount++;
     // entered every 1ms
 
-    if (tempADC[7] < 850) {
+    if (tempADC[7] < MinVoltage) {
         DutyLimit = duty - 1;
     }
-    else if (tempADC[7] > 900 && DutyLimit < ) {
+    else if (tempADC[7] > RecoverVoltage && DutyLimit < pwmPeriod) {
         DutyLimit+=1;
     }
 
