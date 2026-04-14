@@ -248,11 +248,11 @@ interrupt void  ISRadc(void)
     // 1: velocity
     // 2: acceleration
     // 3: current
-    stepPIDs(0.0,
-             (double)sp/4096*2300,
-             3,
-             (double) currentcurrent,
-             &duty_cv);
+    // stepPIDs(0.0,
+    //          (double)sp/4096*2300,
+    //          3,
+    //          (double) currentcurrent,
+    //          &duty_cv);
 
     duty = (int16) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%
