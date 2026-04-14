@@ -32,10 +32,6 @@ extern Uint32   Cnt_total, Cnt_on;
 // From Ex 4-1
 Uint32 loopCnt = 0, loopToggle = 300000;
 
-int test(int input) {
-    return input;
-}
-
 void main(void)
 {
 #ifdef _RELEASE
