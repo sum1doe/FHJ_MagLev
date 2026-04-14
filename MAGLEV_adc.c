@@ -168,14 +168,14 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC2CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Hall
-    AdcRegs.ADCSOC3CTL.bit.CHSEL    = 0x04; // set SOC0 channel select to ADCINA4
+    AdcRegs.ADCSOC3CTL.bit.CHSEL    = 0x0F; // set SOC0 channel select to ADCINA4
     AdcRegs.ADCSOC3CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
     AdcRegs.ADCSOC3CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current A
     // Current B
     // Current C
-    // Current C
+    // Voltage
 
 
  for (i = 0; i < BufferSize; i++) {
