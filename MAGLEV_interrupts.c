@@ -55,10 +55,19 @@ interrupt void timerISR(void)
 {
     EINT;
     CpuTimer0.InterruptCount++;
-    // entered every 1ms
 
-    if(!(CpuTimer0.InterruptCount % 100)){ 
-        // implement position control
+    // Speed read (38S6G5-600B-G24N: 600 PPR)
+    if(!(CpuTimer0.InterruptCount % 100)){
+        diffPos = pPosVal - EQep2Regs.QPOSCNT;
+        fRpmRaw = (float)diffPos/600 * 10 * 60 * 0.25;
+        fRpm = 0.01 * fRpmRaw + 0.99 * fRpm;
+        pPosVal = EQep2Regs.QPOSCNT;
+
+        if(duty == 0){
+            diffPos = 0;
+            fRpmRaw = 0;
+            fRpm = 0;
+        }
     }
 
     // Clear interrupt flag
