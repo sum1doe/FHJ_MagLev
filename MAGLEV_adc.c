@@ -153,31 +153,26 @@ void InitAdcRegs(void)
     // Pot3
     AdcRegs.ADCSOC0CTL.bit.CHSEL    = 0x0B; // set SOC0 channel select to ADCINB3
     AdcRegs.ADCSOC0CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC0CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC0CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
     // ACQPS is the time taken to process input signals, specifically for applications where the thing you're reading is slow.
     // If you need to read a high frequency signal, use an OpAmp with a sufficient bandwidth to charge the ADC faster.
 
     // Pot2
     AdcRegs.ADCSOC1CTL.bit.CHSEL    = 0x03; // set SOC0 channel select to ADCINA3
     AdcRegs.ADCSOC1CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC1CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC1CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Pot1
     AdcRegs.ADCSOC2CTL.bit.CHSEL    = 0x0D; // set SOC0 channel select to ADCINB5
     AdcRegs.ADCSOC2CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC2CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC2CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Hall
     AdcRegs.ADCSOC3CTL.bit.CHSEL    = 0x04; // set SOC0 channel select to ADCINA4
     AdcRegs.ADCSOC3CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC3CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC3CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current A
-    AdcRegs.ADCSOC4CTL.bit.CHSEL    = 0x00; // Ch = ADCINA0
-    AdcRegs.ADCSOC4CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC4CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
-
-
     // Current B
     // Current C
     // Current C
