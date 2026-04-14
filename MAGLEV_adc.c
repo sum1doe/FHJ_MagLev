@@ -195,13 +195,13 @@ void InitAdcRegs(void)
     // AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
-    for (i = 0; i < BufferSize; i++) {
-        hallBuffer[i] = 0;
-    }
+    // for (i = 0; i < BufferSize; i++) {
+    //     hallBuffer[i] = 0;
+    // }
 
-    loop = 0;
+    // loop = 0;
 
-    initAllPIDs();
+    // initAllPIDs();
 
     EDIS;
 }
@@ -215,33 +215,33 @@ interrupt void  ISRadc(void)
     tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0]; // Pot1
     tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
     tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0]; // Pot3
-    tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0]; // Hall
+    // tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0]; // Hall
     // tempADC[4]  = (int16)(AdcResult.ADCRESULT4  & 0xFFF);// - uOffsetCh[0]; // IA
-    tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
-    tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
+    // tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
+    // tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
     // tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
-    hallBuffer[hallIndex] = tempADC[3];
-    hallIndex = (hallIndex+1)%BufferSize;
+    // hallBuffer[hallIndex] = tempADC[3];
+    // hallIndex = (hallIndex+1)%BufferSize;
 
     // hallIndex is only 0 here after a full buffer has been written.
-    loop = loop || (hallIndex == 0);
+    // loop = loop || (hallIndex == 0);
 
-    int useful_len = loop ? BufferSize : hallIndex;
+    // int useful_len = loop ? BufferSize : hallIndex;
 
-    mn = mean(hallBuffer, useful_len);
-    md = median(hallBuffer, useful_len);
+    // mn = mean(hallBuffer, useful_len);
+    // md = median(hallBuffer, useful_len);
 
     // BLDC PWM
-    sp = tempADC[0];
-    if (sp > 2300) sp = 2300;
-    else if (sp < 10) sp = 0;
-    currentcurrent = 2048-tempADC[4];
+    // sp = tempADC[0];
+    // if (sp > 2300) sp = 2300;
+    // else if (sp < 10) sp = 0;
+    // currentcurrent = 2048-tempADC[4];
 
     potValue = tempADC[0];
 
-    // duty = (Uint16)((float)potValue/4095*4500);
-    // if(duty > pwmPeriod) duty = pwmPeriod;
-    // else if(duty < 10) duty = 0;
+    duty = (Uint16)((float)potValue/4095*4500);
+    if(duty > pwmPeriod) duty = pwmPeriod;
+    else if(duty < 10) duty = 0;
 
     // SPModes:
     // 0: position
@@ -254,7 +254,7 @@ interrupt void  ISRadc(void)
     //          (double) currentcurrent,
     //          &duty_cv);
 
-    duty = (int16) duty_cv;
+    // duty = (int16) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_cv becomes 0 if duty_cv below 0, 4500 if duty_cv above 4500
     // duty = 45*duty_cv;
