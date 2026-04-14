@@ -190,9 +190,9 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Voltage
-    AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x07; // Ch = ADCINA7
-    AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC7CTL.bit.CHSEL    = 0x07; // Ch = ADCINA7
+    AdcRegs.ADCSOC7CTL.bit.TRIGSEL  = 5;    // Same trigger
+    AdcRegs.ADCSOC7CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
  for (i = 0; i < BufferSize; i++) {
