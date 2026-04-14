@@ -13,6 +13,9 @@
 #define MinVoltage 850
 #define RecoverVoltage 900
 
+
+#define EPWM_TIMER_TBPRD  4500                  // PWM Period register 10kHz
+
 ////////////////
 //
 //   PID Values 

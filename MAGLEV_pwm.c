@@ -11,13 +11,14 @@
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "F2806x_EPwm.h"
 
+#include "defines.h"
+
 void InitEPwm(void);
 
-#define EPWM_TIMER_TBPRD  4500                  // PWM Period register 10kHz
 
 // PWM related variables
-Uint16  pwmPeriod = 4500, pwmPeriod1, pwmPeriod2, pwmPeriod3, pwmPeriod4, pwmPeriodHalf;
-Uint16  pwmCmd1 = 2250, pwmCmd2 = 2250, pwmCmd3 = 2250, pwmCmd4 = 2250;
+Uint16  pwmPeriod = EPWM_TIMER_TBPRD, pwmPeriod1, pwmPeriod2, pwmPeriod3, pwmPeriod4, pwmPeriodHalf;
+Uint16  pwmCmd1 = EPWM_TIMER_TBPRD/2, pwmCmd2 = EPWM_TIMER_TBPRD/2, pwmCmd3 = EPWM_TIMER_TBPRD/2, pwmCmd4 = EPWM_TIMER_TBPRD/2;
 
 void InitEPwm(void)
 {

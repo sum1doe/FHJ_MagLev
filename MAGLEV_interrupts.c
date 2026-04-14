@@ -49,9 +49,8 @@ void InitInterrupts(void)
     EDIS;
 }
 
-extern Uint16  pwmPeriod;
 extern Uint16  duty;
-Uint16 DutyLimit = pwmPeriod;
+Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 
 // Timer0 interrupt service routine
 __attribute__((ramfunc))
@@ -64,7 +63,7 @@ interrupt void timerISR(void)
     if (tempADC[7] < MinVoltage) {
         DutyLimit = duty - 1;
     }
-    else if (tempADC[7] > RecoverVoltage && DutyLimit < pwmPeriod) {
+    else if (tempADC[7] > RecoverVoltage && DutyLimit < EPWM_TIMER_TBPRD) {
         DutyLimit+=1;
     }
 
