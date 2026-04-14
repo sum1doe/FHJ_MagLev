@@ -190,9 +190,9 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current C
-    AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x0F; // Ch = ADCINB7
-    AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC7CTL.bit.CHSEL    = 0x07; // Ch = ADCINA7
+    AdcRegs.ADCSOC7CTL.bit.TRIGSEL  = 5;    // Same trigger
+    AdcRegs.ADCSOC7CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     for (i = 0; i < BufferSize; i++) {
@@ -228,8 +228,8 @@ interrupt void  ISRadc(void)
 
     int useful_len = loop ? BufferSize : hallIndex;
 
-    mn = mean(hallBuffer, useful_len);
-    md = median(hallBuffer, useful_len);
+    // mn = mean(hallBuffer, useful_len);
+    // md = median(hallBuffer, useful_len);
 
     // BLDC PWM
     sp = tempADC[0];
