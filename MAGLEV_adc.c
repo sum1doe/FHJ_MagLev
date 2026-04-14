@@ -173,6 +173,11 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC3CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current A
+    AdcRegs.ADCSOC4CTL.bit.CHSEL    = 0x00; // Ch = ADCINA0
+    AdcRegs.ADCSOC4CTL.bit.TRIGSEL  = 5;    // Same trigger
+    AdcRegs.ADCSOC4CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+
+
     // Current B
     // Current C
     // Current C
