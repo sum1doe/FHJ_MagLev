@@ -14,7 +14,7 @@
 void InitAdcRegs(void);
 interrupt void  ISRadc(void);
 
-int16   tempADC[14];
+volatile int16   tempADC[14];
 
 #ifndef BufferSize
 #define BufferSize 50
@@ -189,7 +189,7 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
-    // Current C
+    // Voltage
     AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x0F; // Ch = ADCINB7
     AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
     AdcRegs.ADCSOC6CTL.bit.ACQPS    = 9;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
