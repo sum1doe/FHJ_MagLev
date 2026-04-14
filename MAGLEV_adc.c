@@ -16,6 +16,22 @@ interrupt void  ISRadc(void);
 
 int16   tempADC[14];
 
+#ifndef BufferSize
+#define BufferSize 50
+#define BufferVariation 64 
+// Defines the maximum buffer size in the median function
+#endif
+int16   hallBuffer[BufferSize];
+int     hallIndex = 0;
+
+// Expected hall sensor error margin.
+int     count[32];
+
+int i;
+int md, mn;
+
+int loop; // Has the buffer been filled at least once?
+
 Uint16 Hall_A, Hall_B, Hall_C, Hall;
 
 Uint16 duty = 0; // PWM signal for top switches //
@@ -23,6 +39,82 @@ extern Uint16  pwmPeriod;
 
 extern int dir; // Direction of rotation;  CW - 1, CCW - 0//
 Uint16 potValue;
+
+// Import Section, effectively
+
+typedef struct PIDStruct {
+    // Input
+    double sp;
+    double data;
+    // Config
+    double kp;
+    double ki;
+    double kd;
+    double kM; // Memory Coefficient
+    // Output
+    double cv;
+    // Processing
+    double prevData;
+    double prevI;
+} PID;
+
+// PID* initPID(double kp, double ki, double kd);
+void initAllPIDs();
+// void updatePID(PID* pid, double data, double sp);
+// double getCV(PID* pid);
+// void delPID(PID* pid);
+void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
+int sp = 0;
+int currentcurrent = 0; // in mA
+double duty_cv = 0;
+
+// And now, functions!
+
+int mean(int* arr, int len) {
+    int32 out = 0;
+    for (i = 0; i < len; i++) {
+        out += arr[i];
+    }
+    return out/len;
+}
+
+
+int median(int* arr, int len) {
+    int max = 0;
+    int min = 0x7fff;
+    for (i = 0; i < len; i++) {
+        if (arr[i] >= max) {
+            max = arr[i];
+        }
+        if (arr[i] <= min) {
+            min = arr[i];
+        }
+    }
+
+
+    int cnt_len = max-min+1;
+    if (cnt_len > BufferVariation) {
+        cnt_len = BufferVariation;
+    }
+
+    for (i = 0; i < cnt_len; i++) {
+        count[i] = 0;
+    }
+    
+
+    for (i = 0; i < len; i++) {
+        count[arr[i]-min]++;
+    }
+
+    int target = len/2;
+    for (i = 0; i < cnt_len; i++) {
+        target -= count[i];
+        if (target <= 0) {
+            return min + i;
+        }
+    }
+    return min + BufferVariation;
+}
 
 void InitAdcRegs(void)
 {
@@ -73,18 +165,37 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC1CTL.bit.CHSEL    = 0x04; // set SOC0 channel select to ADCINA3
     AdcRegs.ADCSOC1CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
     AdcRegs.ADCSOC1CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+ for (i = 0; i < BufferSize; i++) {
+        hallBuffer[i] = 0;
+    }
 
+    loop = 0;
+
+    initAllPIDs();
+    
     EDIS;
 }
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
 {
+    // entered every 0.1ms
     // ADC read
 
     tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0];
     tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0];
     tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0];
+    // Break
+    hallBuffer[hallIndex] = tempADC[3];
+    hallIndex = (hallIndex+1)%BufferSize;
+
+    // hallIndex is only 0 here after a full buffer has been written.
+    loop = loop || (hallIndex == 0);
+
+    int useful_len = loop ? BufferSize : hallIndex;
+
+    mn = mean(hallBuffer, useful_len);
+    md = median(hallBuffer, useful_len);
 
     // BLDC PWM
     potValue = tempADC[0];
