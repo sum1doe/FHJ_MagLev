@@ -8,3 +8,5 @@ temp/
 meeting notes
 wolfram things
 .settings/
+MAGLEV_adc.c.tmp
+MAGLEV_pid.c.tmp
