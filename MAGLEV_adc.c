@@ -38,7 +38,7 @@ Uint16 duty = 0; // PWM signal for top switches //
 extern Uint16  pwmPeriod;
 extern Uint16  DutyLimit;
 
-extern int dir; // Direction of rotation;  CW - 1, CCW - 0//
+extern int dir; // Magnet Polarity, TODO check which is up/down//
 Uint16 potValue;
 
 // Import Section, effectively
