@@ -240,6 +240,8 @@ interrupt void  ISRadc(void)
 
     potValue = tempADC[0];
 
+    dir = tempADC[1] > 2047;
+
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
@@ -264,10 +266,19 @@ interrupt void  ISRadc(void)
 
     duty = duty > DutyLimit ? DutyLimit : duty;
 
-    EPwm1Regs.CMPA.half.CMPA = duty;
-    EPwm1Regs.CMPB = 0;
-    EPwm2Regs.CMPA.half.CMPA = 0;
-    EPwm2Regs.CMPB = pwmPeriod;                                                                                     
+    if (dir) {
+        EPwm1Regs.CMPA.half.CMPA = duty;
+        EPwm1Regs.CMPB = 0;
+        EPwm2Regs.CMPA.half.CMPA = 0;
+        EPwm2Regs.CMPB = pwmPeriod;  
+    } else {
+        EPwm2Regs.CMPA.half.CMPA = duty;
+        EPwm2Regs.CMPB = 0;
+        EPwm1Regs.CMPA.half.CMPA = 0;
+        EPwm1Regs.CMPB = pwmPeriod;  
+    }
+
+                                                                                       
     EPwm3Regs.CMPA.half.CMPA = 0;
     EPwm3Regs.CMPB = 0;
 
