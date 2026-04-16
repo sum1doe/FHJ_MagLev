@@ -242,8 +242,8 @@ interrupt void  ISRadc(void)
     // BLDC PWM
     sp = tempADC[0];
 
-    dist = LU_SensorDistance[tempADC[0]];
-    dir = 2412 < tempADC[0];
+    dist = LU_SensorDistance[tempADC[3]];
+    dir = 2412 < tempADC[3];
 
     if (sp > 2300) sp = 2300;
     else if (sp < 10) sp = 0;
