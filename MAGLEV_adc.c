@@ -213,7 +213,6 @@ void InitAdcRegs(void)
 
 
 int16 dist;
-double distFromCoil;
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
@@ -258,14 +257,13 @@ interrupt void  ISRadc(void)
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
 
-    distFromCoil = 72.0 - dist/10;
 
     // SPModes:
     // 0: position
     // 1: velocity
     // 2: acceleration
     // 3: current
-    stepPIDs(0.0,
+    stepPIDs((double) dist,
              (double)sp/4096*2300,
              3,
              (double) currentcurrent,
