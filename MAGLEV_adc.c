@@ -243,7 +243,7 @@ interrupt void  ISRadc(void)
     sp = tempADC[0];
 
     dist = LU_SensorDistance[tempADC[3]];
-    dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
+    // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
 
     if (sp > 2300) sp = 2300;
     else if (sp < 10) sp = 0;
@@ -251,7 +251,7 @@ interrupt void  ISRadc(void)
 
     potValue = tempADC[0];
 
-    // dir = tempADC[1] > 2047;
+    dir = tempADC[1] > 2047;
 
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
