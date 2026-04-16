@@ -122,6 +122,7 @@ int median(int* arr, int len) {
     return min + BufferVariation;
 }
 
+int debug = 0;
 int16 coilInterferenceFunc(int16 x, int dir) {
     if (x < 434 || dir == 1) {
         return 34*x/1906;
@@ -252,6 +253,7 @@ interrupt void  ISRadc(void)
     sp = tempADC[0];
 
     sensor_data = tempADC[3]; // Reading hall sensor.
+    debug = coilInterferenceFunc(tempADC[3], dir);
     sensor_data += coilInterferenceFunc(tempADC[3], dir); // Apply correction for interference from Coil.
 
     dist = LU_SensorDistance[sensor_data];
