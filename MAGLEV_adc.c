@@ -125,9 +125,9 @@ int median(int* arr, int len) {
 int debug = 0;
 int16 coilInterferenceFunc(int16 x, int dir) {
     if (x < 434 || dir == 1) {
-        return 34*x/1906;
+        return (int16) (34.0*x/1906);
     }
-    return 19-33*x/1472;
+    return (int16) 19-33.0*x/1472;
 }
 
 void InitAdcRegs(void)
