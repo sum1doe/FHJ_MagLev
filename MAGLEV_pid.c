@@ -108,7 +108,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     // Setpoint doesn't matter if getCV isn't called.
     updatePID(&position, magDistance, setpoint);
     double vel_sp = 0;
-    if (sp_mode < 0) {                              //  Position Loop
+    if (sp_mode < 1) {                              //  Position Loop
         vel_sp = getCV(&position);
     } else {
         vel_sp = setpoint;
@@ -116,7 +116,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
     double acc_sp = 0;
     updatePID(&velocity, vel, vel_sp);
-    if (sp_mode < 1) {                              // Velocity Loop
+    if (sp_mode < 2) {                              // Velocity Loop
         acc_sp = getCV(&velocity);
     } else {
         acc_sp = setpoint;
@@ -124,7 +124,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
     double curr_sp = 0;
     updatePID(&acceleration, acc, acc_sp);
-    if (sp_mode < 2) {
+    if (sp_mode < 3) {
         curr_sp = getCV(&acceleration);
     } else {
         curr_sp = setpoint;
