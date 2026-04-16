@@ -254,7 +254,7 @@ interrupt void  ISRadc(void)
 
     sensor_data = tempADC[3]; // Reading hall sensor.
     debug = coilInterferenceFunc(prevDuty, dir);
-    sensor_data += coilInterferenceFunc(prevDuty, dir); // Apply correction for interference from Coil.
+    sensor_data -= coilInterferenceFunc(prevDuty, dir); // Apply correction for interference from Coil.
 
     dist = LU_SensorDistance[sensor_data];
     // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
