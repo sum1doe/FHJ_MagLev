@@ -24,7 +24,7 @@ int16   tempADC[14];
 int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
 
-Uint16 LU_SensorDistance[4096] = {
+const Uint16 LU_SensorDistance[4096] = {
     #include "SensorDistanceCurve.dat"
 };
 
@@ -39,6 +39,7 @@ int loop; // Has the buffer been filled at least once?
 Uint16 Hall_A, Hall_B, Hall_C, Hall;
 
 Uint16 duty = 0; // PWM signal for top switches //
+Uint16 prevDuty = 0;
 extern Uint16  pwmPeriod;
 extern Uint16  DutyLimit;
 
@@ -119,6 +120,13 @@ int median(int* arr, int len) {
         }
     }
     return min + BufferVariation;
+}
+
+int16 coilInterferenceFunc(int16 x, int dir) {
+    if (x < 434 || dir == 1) {
+        return 34*i/1906;
+    }
+    return 19-33*i/1472;
 }
 
 void InitAdcRegs(void)
@@ -213,6 +221,7 @@ void InitAdcRegs(void)
 
 
 int16 dist;
+Uint16 sensor_data;
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
@@ -242,7 +251,10 @@ interrupt void  ISRadc(void)
     // BLDC PWM
     sp = tempADC[0];
 
-    dist = LU_SensorDistance[tempADC[3]];
+    sensor_data = tempADC[3]; // Reading hall sensor.
+    sensor_data += coilInterferenceFunc(tempADC[3], dir); // Apply correction for interference from Coil.
+
+    dist = LU_SensorDistance[sensor_data];
     // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
 
     if (sp > 2300) sp = 2300;
@@ -278,6 +290,7 @@ interrupt void  ISRadc(void)
 
     // Clamp duty to be below DutyLimit
     duty = duty > DutyLimit ? DutyLimit : duty;
+    duty = duty < 0 ? 0 : duty;
 
     if (!dir) {
         EPwm1Regs.CMPA.half.CMPA = duty;
@@ -291,6 +304,7 @@ interrupt void  ISRadc(void)
         EPwm1Regs.CMPB = pwmPeriod;  
     }
 
+    prevDuty = duty;
                                                                                        
     EPwm3Regs.CMPA.half.CMPA = 0;
     EPwm3Regs.CMPB = 0;
