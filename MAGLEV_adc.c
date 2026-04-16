@@ -24,6 +24,10 @@ int16   tempADC[14];
 int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
 
+Uint16 LU_SensorDistance[4096] = {
+    #include "SensorDistanceCurve.dat"
+};
+
 // Expected hall sensor error margin.
 int     count[32];
 
@@ -207,6 +211,9 @@ void InitAdcRegs(void)
     EDIS;
 }
 
+
+int16 dist;
+
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
 {
@@ -234,13 +241,17 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
+
+    dist = LU_SensorDistance[tempADC[0]];
+    dir = 2412 < tempADC[0];
+
     if (sp > 2300) sp = 2300;
     else if (sp < 10) sp = 0;
     currentcurrent = 2048-tempADC[4];
 
     potValue = tempADC[0];
 
-    dir = tempADC[1] > 2047;
+    // dir = tempADC[1] > 2047;
 
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
