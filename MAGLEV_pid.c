@@ -122,7 +122,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     //     acc_sp = setpoint;
     // }
 
-    // double curr_sp = 0;
+    double curr_sp = 0;
     // updatePID(&acceleration, acc, acc_sp);
     // if (sp_mode < 3) {
     //     curr_sp = getCV(&acceleration);

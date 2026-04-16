@@ -264,9 +264,9 @@ interrupt void  ISRadc(void)
     // 2: acceleration
     // 3: current
     // (double) dist
-    stepPIDs(0.0,
+    stepPIDs((double) dist,
              (double)sp/4096*2300,
-             3,
+             0,
              (double) currentcurrent,
              &duty_cv);
 
