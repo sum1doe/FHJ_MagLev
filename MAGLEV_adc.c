@@ -258,7 +258,7 @@ interrupt void  ISRadc(void)
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
 
-    distFromCoil = 72.0 -
+    distFromCoil = 72.0 - dist;
 
     // SPModes:
     // 0: position
