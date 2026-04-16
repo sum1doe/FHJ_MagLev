@@ -278,7 +278,7 @@ interrupt void  ISRadc(void)
     // (double) dist
     stepPIDs((double) dist,
              (double)sp/4096*2300,
-             0,
+             3,
              (double) currentcurrent,
              &duty_cv);
 
