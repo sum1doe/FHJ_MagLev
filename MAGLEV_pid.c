@@ -114,21 +114,23 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
         vel_sp = setpoint;
     }
 
-    double acc_sp = 0;
-    updatePID(&velocity, vel, vel_sp);
-    if (sp_mode < 2) {                              // Velocity Loop
-        acc_sp = getCV(&velocity);
-    } else {
-        acc_sp = setpoint;
-    }
+    // double acc_sp = 0;
+    // updatePID(&velocity, vel, vel_sp);
+    // if (sp_mode < 2) {                              // Velocity Loop
+    //     acc_sp = getCV(&velocity);
+    // } else {
+    //     acc_sp = setpoint;
+    // }
 
-    double curr_sp = 0;
-    updatePID(&acceleration, acc, acc_sp);
-    if (sp_mode < 3) {
-        curr_sp = getCV(&acceleration);
-    } else {
-        curr_sp = setpoint;
-    }
+    // double curr_sp = 0;
+    // updatePID(&acceleration, acc, acc_sp);
+    // if (sp_mode < 3) {
+    //     curr_sp = getCV(&acceleration);
+    // } else {
+    //     curr_sp = setpoint;
+    // }
+
+    curr_sp = vel_sp;
     
     // TODO Lookup Table for acceleration -> Current.
     curr_sp = curr_sp * (-2300 <= curr_sp && curr_sp <= 2300) + 2300 * (curr_sp > 2300) - 2300 * (curr_sp < -2300);
