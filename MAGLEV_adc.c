@@ -213,6 +213,7 @@ void InitAdcRegs(void)
 
 
 int16 dist;
+double distFromCoil;
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
@@ -257,6 +258,8 @@ interrupt void  ISRadc(void)
     // if(duty > pwmPeriod) duty = pwmPeriod;
     // else if(duty < 10) duty = 0;
 
+    distFromCoil = 72.0 -
+
     // SPModes:
     // 0: position
     // 1: velocity
@@ -274,10 +277,10 @@ interrupt void  ISRadc(void)
     // duty = 45*duty_cv;
     // duty = duty * (0 <= duty && duty <= 4499) + 4499 * (duty > 4500);
 
-
+    // Clamp duty to be below DutyLimit
     duty = duty > DutyLimit ? DutyLimit : duty;
 
-    if (dir) {
+    if (!dir) {
         EPwm1Regs.CMPA.half.CMPA = duty;
         EPwm1Regs.CMPB = 0;
         EPwm2Regs.CMPA.half.CMPA = 0;
