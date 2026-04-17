@@ -259,8 +259,6 @@ interrupt void  ISRadc(void)
     dist = LU_SensorDistance[sensor_data];
     // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
 
-    if (sp > 2300) sp = 2300;
-    else if (sp < 10) sp = 0;
     currentcurrent = 2048-tempADC[4];
 
     potValue = tempADC[0];
@@ -279,7 +277,7 @@ interrupt void  ISRadc(void)
     // 3: current
     // (double) dist
     stepPIDs((double) dist,
-             (double)sp/4096*2300,
+             (double)sp,
              3,
              (double) currentcurrent,
              &duty_cv);
