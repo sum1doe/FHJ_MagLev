@@ -50,7 +50,7 @@ void InitInterrupts(void)
 }
 
 extern Uint16   duty;
-extern Uint16   currentcurrent;
+extern int16   currentcurrent;
 Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 
 // Timer0 interrupt service routine
