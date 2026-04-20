@@ -282,18 +282,19 @@ interrupt void  ISRadc(void)
              (double) currentcurrent,
              &duty_cv);
 
-    duty = (int16) duty_cv;
+    if (duty_cv < 0) {
+        dir = !dir;
+        duty_cv = -duty_cv;
+    }
+
+    duty = (Uint16) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%
     // duty_cv becomes 0 if duty_cv below 0, 4500 if duty_cv above 4500
     // duty = 45*duty_cv;
     // duty = duty * (0 <= duty && duty <= 4499) + 4499 * (duty > 4500);
 
     // Clamp duty to be below DutyLimit
-    if (duty < 0) {
-        duty = 0;
-        // dir = !dir;
-        // duty = -duty;
-    }
+    
     duty = duty > DutyLimit ? DutyLimit : duty;
     duty = duty < 0 ? 0 : duty;
 
