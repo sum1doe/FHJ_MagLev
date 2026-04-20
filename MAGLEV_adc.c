@@ -134,7 +134,7 @@ int16 coilInterferenceFunc(int16 x, int dir) {
 // relies on math.h in MAGLEV_pid.c
 extern double sqrt(double x);
 int16 shunt2current(int16 input) {
-    return 17 * sqrt(input*input*input) / 125;
+    return 17 * ((int16) sqrt((double) input*input*input)) / 125;
 }
 
 void InitAdcRegs(void)
