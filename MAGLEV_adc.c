@@ -269,7 +269,7 @@ interrupt void  ISRadc(void)
 
     dir = tempADC[1] > 2047;
 
-    currentcurrent = 2090-tempADC[5-dir];
+    currentcurrent = 2100-tempADC[5-dir];
     currentcurrent = shunt2current(currentcurrent);
 
     
