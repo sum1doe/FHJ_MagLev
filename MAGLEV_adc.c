@@ -259,11 +259,11 @@ interrupt void  ISRadc(void)
     dist = LU_SensorDistance[sensor_data];
     // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
 
+    dir = tempADC[1] > 2047;
+
     currentcurrent = 2090-tempADC[5-dir];
 
     potValue = tempADC[0];
-
-    dir = tempADC[1] > 2047;
 
     // duty = (Uint16)((float)potValue/4095*4500);
     // if(duty > pwmPeriod) duty = pwmPeriod;
