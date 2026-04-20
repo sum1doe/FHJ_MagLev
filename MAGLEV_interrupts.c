@@ -49,7 +49,8 @@ void InitInterrupts(void)
     EDIS;
 }
 
-extern Uint16  duty;
+extern Uint16   duty;
+extern Uint16   currentcurrent;
 Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 
 // Timer0 interrupt service routine
@@ -60,10 +61,10 @@ interrupt void timerISR(void)
     CpuTimer0.InterruptCount++;
     // entered every 1ms
 
-    if (tempADC[7] < MinVoltage && DutyLimit > 0) {
+    if ((tempADC[7] < MinVoltage || currentcurrent > MaxCurrent) && DutyLimit > 0) {
         DutyLimit = DutyLimit - 1 < duty - 1 ? DutyLimit - 1 : duty - 1;
     }
-    else if (tempADC[7] > RecoverVoltage && DutyLimit < EPWM_TIMER_TBPRD) {
+    else if (tempADC[7] > RecoverVoltage && currentcurrent < MaxCurrent && DutyLimit < EPWM_TIMER_TBPRD) {
         DutyLimit+=1;
     }
 

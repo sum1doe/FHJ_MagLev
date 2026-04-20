@@ -71,7 +71,7 @@ void initAllPIDs();
 // void delPID(PID* pid);
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 int sp = 0;
-int currentcurrent = 0; // in mA
+Uint16 currentcurrent = 0; // in mA
 double duty_cv = 0;
 
 // And now, functions!
