@@ -288,16 +288,16 @@ interrupt void  ISRadc(void)
     // 1: velocity
     // 2: acceleration
     // 3: current
-    // (double) dist
     stepPIDs((double) dist,
-             (double)sp,
+             (double)sp*2000.0/4095,
              3,
              (double) currentcurrent,
              &duty_cv);
 
     if (duty_cv < 0) {
-        dir = !dir;
-        duty_cv = -duty_cv;
+        // dir = !dir;
+        // duty_cv = -duty_cv;
+        duty_cv = 0;
     }
 
     duty = (Uint16) duty_cv;
