@@ -274,13 +274,6 @@ interrupt void  ISRadc(void)
     hallBuffer[hallIndex] = currentcurrent;
     hallIndex = (hallIndex+1)%BufferSize;
 
-    potValue = tempADC[0];
-
-    // duty = (Uint16)((float)potValue/4095*4500);
-    // if(duty > pwmPeriod) duty = pwmPeriod;
-    // else if(duty < 10) duty = 0;
-
-
     // SPModes:
     // 0: position
     // 1: velocity
