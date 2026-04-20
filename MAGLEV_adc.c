@@ -259,7 +259,7 @@ interrupt void  ISRadc(void)
     dist = LU_SensorDistance[sensor_data];
     // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
 
-    currentcurrent = 2048-tempADC[4];
+    currentcurrent = 2090-tempADC[5-dir];
 
     potValue = tempADC[0];
 
