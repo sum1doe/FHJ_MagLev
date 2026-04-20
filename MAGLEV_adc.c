@@ -123,11 +123,18 @@ int median(int* arr, int len) {
 }
 
 int debug = 0;
+
 int16 coilInterferenceFunc(int16 x, int dir) {
     if (x < 434 || dir == 1) {
         return (int16) (34.0*x/1906);
     }
     return (int16) 19-33.0*x/1472;
+}
+
+// relies on math.h in MAGLEV_pid.c
+extern double sqrt(double x);
+int16 shunt2current(int16 input) {
+    return 17 * sqrt(input*input*input) / 125;
 }
 
 void InitAdcRegs(void)
@@ -263,6 +270,7 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2090-tempADC[5-dir];
+    currentcurrent = shunt2current(currentcurrent);
 
     
     hallBuffer[hallIndex] = currentcurrent;
