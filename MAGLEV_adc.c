@@ -223,7 +223,6 @@ void InitAdcRegs(void)
 
 int16 dist;
 Uint16 sensor_data;
-extern main_bus;
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
@@ -239,7 +238,10 @@ interrupt void  ISRadc(void)
     tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
     tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
     tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
-    hallBuffer[hallIndex] = tempADC[3];
+
+
+
+    hallBuffer[hallIndex] = tempADC[5-dir];
     hallIndex = (hallIndex+1)%BufferSize;
 
     // hallIndex is only 0 here after a full buffer has been written.
