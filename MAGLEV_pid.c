@@ -73,8 +73,6 @@ double current2duty(double current) {
     return 55.6*sqrt(current);
 }
 
-
-
 PID position = {};
 PID velocity = {};
 PID acceleration = {};
