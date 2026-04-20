@@ -265,7 +265,6 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2090-tempADC[5-dir];
-    main_bus = currentcurrent;
 
     potValue = tempADC[0];
 
