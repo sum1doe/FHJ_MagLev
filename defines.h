@@ -35,7 +35,7 @@
 #define ACC_D 0
 
 #define CUR_P 1
-#define CUR_I 0
+#define CUR_I 1
 #define CUR_D 0
 
 //========================//
