@@ -290,8 +290,9 @@ interrupt void  ISRadc(void)
 
     // Clamp duty to be below DutyLimit
     if (duty < 0) {
-        dir = !dir;
-        duty = -duty;
+        duty = 0;
+        // dir = !dir;
+        // duty = -duty;
     }
     duty = duty > DutyLimit ? DutyLimit : duty;
     duty = duty < 0 ? 0 : duty;
