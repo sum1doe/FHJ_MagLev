@@ -133,8 +133,9 @@ int16 coilInterferenceFunc(int16 x, int dir) {
 
 // relies on math.h in MAGLEV_pid.c
 extern double sqrt(double x);
+
 int16 shunt2current(int16 input) {
-    return 17 * ((int16) sqrt((double) input*input*input)) / 125;
+    return 17 * ((int16) sqrt((double) input)) * input / 125;
 }
 
 void InitAdcRegs(void)
@@ -174,46 +175,46 @@ void InitAdcRegs(void)
     // Pot3
     AdcRegs.ADCSOC0CTL.bit.CHSEL    = 0x0B; // set SOC0 channel select to ADCINB3
     AdcRegs.ADCSOC0CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC0CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC0CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
     // ACQPS is the time taken to process input signals, specifically for applications where the thing you're reading is slow.
     // If you need to read a high frequency signal, use an OpAmp with a sufficient bandwidth to charge the ADC faster.
 
     // Pot2
     AdcRegs.ADCSOC1CTL.bit.CHSEL    = 0x03; // set SOC0 channel select to ADCINA3
     AdcRegs.ADCSOC1CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC1CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC1CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Pot1
     AdcRegs.ADCSOC2CTL.bit.CHSEL    = 0x0D; // set SOC0 channel select to ADCINB5
     AdcRegs.ADCSOC2CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC2CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC2CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Hall
     AdcRegs.ADCSOC3CTL.bit.CHSEL    = 0x04; // set SOC0 channel select to ADCINA4
     AdcRegs.ADCSOC3CTL.bit.TRIGSEL  = 5;    // set SOC0 start trigger on EPWM1A
-    AdcRegs.ADCSOC3CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC3CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current A
     AdcRegs.ADCSOC4CTL.bit.CHSEL    = 0x00; // Ch = ADCINA0
     AdcRegs.ADCSOC4CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC4CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC4CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     // Current B
     AdcRegs.ADCSOC5CTL.bit.CHSEL    = 0x08; // Ch = ADCINB0
     AdcRegs.ADCSOC5CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC5CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC5CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     // Current C
     AdcRegs.ADCSOC6CTL.bit.CHSEL    = 0x09; // Ch = ADCINB1
     AdcRegs.ADCSOC6CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC6CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
     // Current C
     AdcRegs.ADCSOC7CTL.bit.CHSEL    = 0x07; // Ch = ADCINA7
     AdcRegs.ADCSOC7CTL.bit.TRIGSEL  = 5;    // Same trigger
-    AdcRegs.ADCSOC7CTL.bit.ACQPS    = 6;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
+    AdcRegs.ADCSOC7CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
 
     for (i = 0; i < BufferSize; i++) {
@@ -261,7 +262,6 @@ interrupt void  ISRadc(void)
     sp = tempADC[0];
 
     sensor_data = tempADC[3]; // Reading hall sensor.
-    debug = coilInterferenceFunc(prevDuty, dir);
     sensor_data -= coilInterferenceFunc(prevDuty, dir); // Apply correction for interference from Coil.
 
     dist = LU_SensorDistance[sensor_data];
@@ -270,6 +270,7 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2100-tempADC[5-dir];
+    debug = currentcurrent;
     currentcurrent = shunt2current(currentcurrent);
 
     
