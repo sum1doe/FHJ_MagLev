@@ -135,6 +135,14 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     // TODO Lookup Table for acceleration -> Current.
     // curr_sp = curr_sp * (-2300 <= curr_sp && curr_sp <= 2300) + 2300 * (curr_sp > 2300) - 2300 * (curr_sp < -2300);
 
+
+    if (curr_sp > 600) {
+        curr_sp = 600;
+    } 
+    else if (curr_sp < -600) {
+        curr_sp = -600;
+    }
+    
     updatePID(&current, currentCurrent, curr_sp);
     *pwmControl = getCV(&current);
     // Output value.
