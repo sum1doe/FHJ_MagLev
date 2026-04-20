@@ -36,6 +36,10 @@ int test(int input) {
     return input;
 }
 
+int16 main_bus = 0;
+int16 debugarray[200] = {};
+int index = 0;
+
 void main(void)
 {
 #ifdef _RELEASE
@@ -75,9 +79,14 @@ void main(void)
     // Main loop
     while(1)
     {
-        if(!(loopCnt++ % loopToggle)){    // LED TOGGLE at every 200k loops
+        if(!(loopCnt++ % loopToggle)){      // LED TOGGLE at every 200k loops
              GpioDataRegs.GPBTOGGLE.bit.GPIO34 = 1;
         }
+        if (!(loopCnt % 15000)) {              // Should be every 10k loops
+            debugarray[index] = main_bus;
+            index++;
+            index %= 200; 
+        } 
     }
 }
 

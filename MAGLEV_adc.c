@@ -223,6 +223,7 @@ void InitAdcRegs(void)
 
 int16 dist;
 Uint16 sensor_data;
+extern main_bus;
 
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
@@ -262,6 +263,7 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2090-tempADC[5-dir];
+    main_bus = currentcurrent;
 
     potValue = tempADC[0];
 
