@@ -241,8 +241,6 @@ interrupt void  ISRadc(void)
 
 
 
-    hallBuffer[hallIndex] = tempADC[5-dir];
-    hallIndex = (hallIndex+1)%BufferSize;
 
     // hallIndex is only 0 here after a full buffer has been written.
     loop = loop || (hallIndex == 0);
@@ -265,6 +263,10 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2090-tempADC[5-dir];
+
+    
+    hallBuffer[hallIndex] = currentcurrent;
+    hallIndex = (hallIndex+1)%BufferSize;
 
     potValue = tempADC[0];
 
