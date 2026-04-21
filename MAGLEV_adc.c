@@ -130,6 +130,9 @@ int median(int* arr, int len) {
 
 int16 debug = 0;
 
+
+extern double pow(double a, double b);
+
 int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
         return (int16) pow(16.0, 0.5);
@@ -138,7 +141,6 @@ int16 coilInterferenceFunc(double x, int dir) {
     return 0;
 }
 
-extern double pow(double a, double b);
 double shunt2current(int16 input) {
     return 0.136 * pow((double) input, 1.5);
 }
