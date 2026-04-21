@@ -267,7 +267,8 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2100-tempADC[5-dir];
-    debug = currentcurrent;
+    debug = (int16) shunt2current(sp);
+    sp = 0;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
     hallBuffer[hallIndex] = currentcurrent;
