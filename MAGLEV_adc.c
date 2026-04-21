@@ -292,7 +292,12 @@ interrupt void  ISRadc(void)
              (double) currentcurrent,
              &duty_cv);
 
-    duty = (Uint16) duty_cv;
+    // duty = (Uint16) duty_cv;
+
+    if (debug != 0) {
+        duty = debug;
+        debug = 0;
+    }
     
     duty = duty > DutyLimit ? DutyLimit : duty;
     duty = duty < 0 ? 0 : duty;
