@@ -285,8 +285,10 @@ interrupt void  ISRadc(void)
     }
     else {
         debug--;
-        hallBuffer[hallIndex] = currentcurrent;
-        hallIndex = (hallIndex+1)%BufferSize;
+        if (debug % 10 == 0) {
+            hallBuffer[hallIndex] = currentcurrent;
+            hallIndex = (hallIndex+1)%BufferSize;
+        }
     }
 
     // SPModes:
