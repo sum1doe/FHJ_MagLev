@@ -283,11 +283,11 @@ interrupt void  ISRadc(void)
     // debug = currentcurrent;
 
     currentcurrent = (int16) shunt2current(currentcurrent);
-    currentcurrent = 0.1 * currentcurrent + 0.9 * prevCurrent;
+    currentcurrent = 0.05 * currentcurrent + 0.95 * prevCurrent;
     
     prevCurrent = currentcurrent;
     
-    hallBuffer[hallIndex] = currentcurrent;
+    hallBuffer[hallIndex] = sensor_data;
     hallIndex = (hallIndex+1)%BufferSize;
 
 
