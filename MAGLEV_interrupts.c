@@ -65,6 +65,7 @@ interrupt void timerISR(void)
     // entered every 1ms
 
     if ((tempADC[7] < MinVoltage || currentcurrent > MaxCurrent) && DutyLimit > 0) {
+        debug = currentcurrent;
         DutyLimit--;
     }
     else if (tempADC[7] > RecoverVoltage && currentcurrent < MaxCurrent && DutyLimit < EPWM_TIMER_TBPRD) {
