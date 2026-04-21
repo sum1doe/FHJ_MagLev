@@ -279,6 +279,10 @@ interrupt void  ISRadc(void)
     prevCurrent = currentcurrent;
     // debug = currentcurrent;
     currentcurrent = (int16) shunt2current(currentcurrent);
+    
+    hallBuffer[hallIndex] = currentcurrent;
+    hallIndex = (hallIndex+1)%BufferSize;
+
 
     // PID Tuning Scheme; might want to add a negative "always on" mode.
 
