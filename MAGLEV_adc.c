@@ -72,6 +72,8 @@ void initAllPIDs();
 // void delPID(PID* pid);
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 int sp = 0;
+int prevSP = 0;
+
 double currentcurrent = 0; // in mA
 double prevCurrent = 0;
 double m = 0.1;
@@ -262,6 +264,8 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
+    sp = sp * 0.1 + 0.9 * prevSP;
+    prevSP = sp;
 
     sensor_data = tempADC[3]; // Reading hall sensor.
     sensor_data -= coilInterferenceFunc(prevDuty, dir); // Apply correction for interference from Coil.
