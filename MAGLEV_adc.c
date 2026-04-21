@@ -125,7 +125,7 @@ int median(int* arr, int len) {
     return min + BufferVariation;
 }
 
-int debug = 0;
+int16 debug = 0;
 
 int16 coilInterferenceFunc(int16 x, int dir) {
     if (x < 434 || dir == 1) {
@@ -291,12 +291,6 @@ interrupt void  ISRadc(void)
              3,
              (double) currentcurrent,
              &duty_cv);
-
-    if (duty_cv < 0) {
-        // dir = !dir;
-        // duty_cv = -duty_cv;
-        duty_cv = 0;
-    }
 
     duty = (Uint16) duty_cv;
     // Duty should be 0-4500, stepPIDs returns PWM%

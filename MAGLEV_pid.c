@@ -88,6 +88,8 @@ void initAllPIDs() {
     initPID(&current, CUR_P, CUR_I, CUR_D);
 }
 
+extern int16 debug;
+
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl) {
     // Data Buffer Updates
     dataIndex++;
