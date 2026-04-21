@@ -140,8 +140,8 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
     updatePID(&current, currentCurrent, curr_sp);
     cv = getCV(&current);
-    debug = cv;
-    *pwmControl += cv;
+    // debug = cv;
+    *pwmControl += debug;
     // Output value.
     // *pwmControl = current2duty(curr_sp);
     // *pwmControl = curr_sp;
