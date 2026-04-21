@@ -291,10 +291,10 @@ interrupt void  ISRadc(void)
 
     // duty = (Uint16) duty_cv;
 
-    if (debug != 0) {
-        duty = debug;
-        debug = 0;
-    }
+    // if (debug != 0) {
+    //     duty = debug;
+    //     debug = 0;
+    // }
     
     
     if (duty > EPWM_TIMER_TBPRD) {
