@@ -275,9 +275,6 @@ interrupt void  ISRadc(void)
     // debug = currentcurrent;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
-    currentcurrent = currentcurrent * m + prevCurrent * (1-m);
-    prevCurrent = currentcurrent;
-
     hallBuffer[hallIndex] = currentcurrent;
     hallIndex = (hallIndex+1)%BufferSize;
 
