@@ -264,7 +264,7 @@ interrupt void  ISRadc(void)
 
     // BLDC PWM
     sp = tempADC[0];
-    sp = sp * 0.1 + 0.9 * prevSP;
+    sp = sp * 0.02 + 0.98 * prevSP;
     prevSP = sp;
 
     sensor_data = tempADC[3]; // Reading hall sensor.
