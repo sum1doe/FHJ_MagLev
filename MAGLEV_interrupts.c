@@ -50,7 +50,7 @@ void InitInterrupts(void)
 }
 
 extern Uint16   duty;
-extern int16   currentcurrent;
+extern double   currentcurrent;
 Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 
 extern int16 hallBuffer[50];
