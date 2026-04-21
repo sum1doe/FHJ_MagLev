@@ -268,7 +268,6 @@ interrupt void  ISRadc(void)
 
     currentcurrent = 2100-tempADC[5-dir];
     debug = (int16) shunt2current(sp);
-    sp = 0;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
     hallBuffer[hallIndex] = currentcurrent;
@@ -280,7 +279,7 @@ interrupt void  ISRadc(void)
     // 2: acceleration
     // 3: current
     stepPIDs((double) dist,
-             (double)sp*2000.0/4095,
+             (double)0*2000.0/4095, // Revert 0 to sp
              3,
              (double) currentcurrent,
              &duty_cv);
