@@ -27,6 +27,7 @@ typedef struct PIDStruct {
     double sp;
     double data;
     // Config
+    double k;
     double kp;
     double ki;
     double kd;
@@ -44,7 +45,8 @@ double getCV(PID* pid);
 void delPID(PID* pid);
 
     
-void initPID(PID* pid, double kp, double ki, double kd) {
+void initPID(PID* pid, double k, double kp, double ki, double kd) {
+    pid->k = k;
     pid->kp = kp;
     pid->ki = ki;
     pid->kd = kd;
@@ -62,9 +64,9 @@ void updatePID(PID* pid, double data, double sp) {
 
 double getCV(PID* pid) {
     pid->prevI = pid->kM * (pid->sp - pid->data) + (1-pid->kM) * pid->prevI;
-    pid->cv =   pid->kp * (pid->sp - pid->data) +
+    pid->cv =   pid->k * (pid->kp * (pid->sp - pid->data) +
                 pid->ki * (pid->prevI) * 10 + 
-                pid->kd * (pid->data-pid->prevData);
+                pid->kd * (pid->data-pid->prevData));
 
     return pid->cv;
 }
@@ -82,10 +84,10 @@ PID current = {};
 
 void initAllPIDs() {
     // Refer to PID_VALS.h to configure these.
-    initPID(&position, POS_P, POS_I, POS_D);
-    initPID(&velocity, VEL_P, VEL_I, VEL_D);
-    initPID(&acceleration, ACC_P, ACC_I, ACC_D);
-    initPID(&current, CUR_P, CUR_I, CUR_D);
+    initPID(&position, POS_K, POS_P, POS_I, POS_D);
+    initPID(&velocity, VEL_L, VEL_P, VEL_I, VEL_D);
+    initPID(&acceleration, ACC_K, ACC_P, ACC_I, ACC_D);
+    initPID(&current, CUR_K, CUR_P, CUR_I, CUR_D);
 }
 
 extern int16 debug;
@@ -142,8 +144,8 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     cv = getCV(&current);
     // debug = cv;
 
-    if (cv > 2000) {
-        cv = 2000;
+    if (cv > 2500) {
+        cv = 2500;
     }
     if (cv < 0) {
         cv = 0;
