@@ -297,8 +297,8 @@ interrupt void  ISRadc(void)
     // }
     
     
-    if (duty > EPWM_TIMER_TBPRD) {
-        duty = EPWM_TIMER_TBPRD;
+    if (duty > DutyLimit) {
+        duty = DutyLimit;
     }
     
     if (duty < 0) {
