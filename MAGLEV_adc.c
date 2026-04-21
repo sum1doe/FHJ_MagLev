@@ -280,18 +280,21 @@ interrupt void  ISRadc(void)
     // debug = currentcurrent;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
+    // PID Tuning Scheme; might want to add a negative "always on" mode.
 
-    if (debug <= 0 ) {
-        sp = 0;
-        debug = 0;
-    }
-    else {
-        debug--;
-        if (debug % BufferResolution == 0) {
-            hallBuffer[hallIndex] = currentcurrent;
-            hallIndex = (hallIndex+1)%BufferSize;
-        }
-    }
+    // if (debug <= 0 ) {
+    //     sp = 0;
+    //     debug = 0;
+    // }
+    // else {
+    //     debug--;
+    //     if (debug % BufferResolution == 0) {
+    //         hallBuffer[hallIndex] = currentcurrent;
+    //         hallIndex = (hallIndex+1)%BufferSize;
+    //     }
+    // }
+
+
 
     // SPModes:
     // 0: position
