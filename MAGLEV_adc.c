@@ -135,7 +135,6 @@ extern double pow(double a, double b);
 
 int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
-        return (int16) pow(16.0, 0.5);
         return (int16) (0.359427 * pow(x, 0.648402)*100);
     }
     return 0;
