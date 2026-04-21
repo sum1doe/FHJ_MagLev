@@ -53,7 +53,8 @@ extern Uint16   duty;
 extern int16   currentcurrent;
 Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 
-extern *int16 hallBuffer;
+extern int16 hallBuffer[50];
+extern int16 debug;
 
 // Timer0 interrupt service routine
 __attribute__((ramfunc))
