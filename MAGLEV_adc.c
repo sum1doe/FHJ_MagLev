@@ -131,6 +131,7 @@ int16 coilInterferenceFunc(int16 x, int dir) {
     return (int16) 19-33.0*x/1472;
 }
 
+extern double pow(double a, double b);
 double shunt2current(int16 input) {
     return 0.136 * pow((double) input, 1.5);
 }
