@@ -65,7 +65,7 @@ void updatePID(PID* pid, double data, double sp) {
 double getCV(PID* pid) {
     pid->prevI = pid->kM * (pid->sp - pid->data) + (1-pid->kM) * pid->prevI;
     pid->cv =   pid->k * (pid->kp * (pid->sp - pid->data) +
-                pid->ki * (pid->prevI) * 10 + 
+                pid->ki * (pid->prevI) * 10 - 
                 pid->kd * (pid->data-pid->prevData));
 
     return pid->cv;
