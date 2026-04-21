@@ -39,7 +39,7 @@ typedef struct PIDStruct {
     double prevI;
 } PID;
 
-void initPID(PID* pid, double kp, double ki, double kd);
+void initPID(PID* pid, double k, double kp, double ki, double kd);
 void updatePID(PID* pid, double data, double sp);
 double getCV(PID* pid);
 void delPID(PID* pid);
@@ -85,7 +85,7 @@ PID current = {};
 void initAllPIDs() {
     // Refer to PID_VALS.h to configure these.
     initPID(&position, POS_K, POS_P, POS_I, POS_D);
-    initPID(&velocity, VEL_L, VEL_P, VEL_I, VEL_D);
+    initPID(&velocity, VEL_K, VEL_P, VEL_I, VEL_D);
     initPID(&acceleration, ACC_K, ACC_P, ACC_I, ACC_D);
     initPID(&current, CUR_K, CUR_P, CUR_I, CUR_D);
 }
