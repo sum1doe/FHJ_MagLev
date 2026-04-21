@@ -132,7 +132,7 @@ int16 debug = 0;
 
 int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
-        return (int16) (0.359427 * pow(x, 0.648402)*100);
+        return (int16) (0.359427 * pow(x, 0.648402)*100+ 1);
     }
     return 0;
 }
