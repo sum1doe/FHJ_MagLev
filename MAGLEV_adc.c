@@ -19,8 +19,9 @@ int16   tempADC[14];
 #ifndef BufferSize
 #define BufferSize 200
 #define BufferVariation 64
-#define BufferResolution 50
 #endif
+
+int BufferResolution = 50;
 int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
 
