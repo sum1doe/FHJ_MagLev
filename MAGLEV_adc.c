@@ -19,6 +19,7 @@ int16   tempADC[14];
 #ifndef BufferSize
 #define BufferSize 200
 #define BufferVariation 64
+#define BufferResolution 50
 #endif
 int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
@@ -285,7 +286,7 @@ interrupt void  ISRadc(void)
     }
     else {
         debug--;
-        if (debug % 10 == 0) {
+        if (debug % BufferResolution == 0) {
             hallBuffer[hallIndex] = currentcurrent;
             hallIndex = (hallIndex+1)%BufferSize;
         }
