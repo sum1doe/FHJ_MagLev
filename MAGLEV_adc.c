@@ -296,8 +296,15 @@ interrupt void  ISRadc(void)
         debug = 0;
     }
     
-    duty = duty > DutyLimit ? DutyLimit : duty;
-    duty = duty < 0 ? 0 : duty;
+    
+    if (duty > EPWM_TIMER_TBPRD) {
+        duty = EPWM_TIMER_TBPRD;
+    }
+    if (duty < 0) {
+        duty = 0;
+    }
+
+
 
     if (!dir) {
         EPwm1Regs.CMPA.half.CMPA = duty;
