@@ -142,11 +142,11 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     cv = getCV(&current);
     // debug = cv;
 
-    if (cv > 1000) {
-        cv = 1000;
+    if (cv > 2000) {
+        cv = 2000;
     }
-    if (cv < -1000) {
-        cv = -1000;
+    if (cv < 0) {
+        cv = 0;
     }
 
     *pwmControl = cv;
