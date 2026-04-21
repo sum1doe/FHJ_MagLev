@@ -279,8 +279,16 @@ interrupt void  ISRadc(void)
     // debug = currentcurrent;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
-    hallBuffer[hallIndex] = currentcurrent;
-    hallIndex = (hallIndex+1)%BufferSize;
+
+    if (debug <= 0 ) {
+        sp = 0;
+        debug = 0;
+    }
+    else {
+        debug--;
+        hallBuffer[hallIndex] = currentcurrent;
+        hallIndex = (hallIndex+1)%BufferSize;
+    }
 
     // SPModes:
     // 0: position

@@ -72,14 +72,13 @@ interrupt void timerISR(void)
     }
 
     if(!(CpuTimer0.InterruptCount % 100)){ 
-        // implement position control
-        int i;
-        debug = 0;
-        for (i = 0; i < 50; i ++) {
-            if (hallBuffer[i] > debug) {
-                debug = hallBuffer[i];
-            }
-        }
+        // int i;
+        // debug = 0;
+        // for (i = 0; i < 50; i ++) {
+        //     if (hallBuffer[i] > debug) {
+        //         debug = hallBuffer[i];
+        //     }
+        // }
     }
 
     // Clear interrupt flag
