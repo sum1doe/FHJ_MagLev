@@ -131,6 +131,7 @@ int median(int* arr, int len) {
 int16 debug = 0;
 
 int16 coilInterferenceFunc(double x, int dir) {
+    return dir + 1;
     if (dir == 0) {
         return (int16) (0.359427 * pow(x, 0.648402));
     }
