@@ -137,7 +137,7 @@ int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
         return (int16) (0.359427 * pow(x, 0.648402));
     }
-    return 0;
+    return (int16) (0.109508 * pow(x, 0.797352));
 }
 
 double shunt2current(int16 input) {
