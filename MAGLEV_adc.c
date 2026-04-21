@@ -71,7 +71,10 @@ void initAllPIDs();
 // void delPID(PID* pid);
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 int sp = 0;
-int16 currentcurrent = 0; // in mA
+double currentcurrent = 0; // in mA
+double prevCurrent = 0;
+double m = 0.1;
+
 double duty_cv = 0;
 
 // And now, functions!
@@ -270,6 +273,9 @@ interrupt void  ISRadc(void)
     currentcurrent = 2100-tempADC[5-dir];
     debug = (int16) shunt2current(sp);
     currentcurrent = (int16) shunt2current(currentcurrent);
+
+    currentcurrent = currentcurrent * m + prevCurrent * (1-m);
+    prevCurrent = currentcurrent;
 
     hallBuffer[hallIndex] = currentcurrent;
     hallIndex = (hallIndex+1)%BufferSize;
