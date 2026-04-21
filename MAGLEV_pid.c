@@ -20,6 +20,8 @@
 double dataBuf[DataBuffer];
 int dataIndex = -1;
 
+double cv = 0;
+
 typedef struct PIDStruct {
     // Input
     double sp;
@@ -135,7 +137,11 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
 
     updatePID(&current, currentCurrent, curr_sp);
-    *pwmControl = current2duty(getCV(&current)) + getCV(&current);
+    cv = getCV(&current);
+    if (cv < 0) {
+        cv = 0;
+    }
+    *pwmControl = current2duty(cv) + cv;
     // Output value.
     // *pwmControl = current2duty(curr_sp);
     // *pwmControl = curr_sp;
