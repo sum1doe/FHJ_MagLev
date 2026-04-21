@@ -17,9 +17,8 @@ interrupt void  ISRadc(void);
 int16   tempADC[14];
 
 #ifndef BufferSize
-#define BufferSize 50
-#define BufferVariation 64 
-// Defines the maximum buffer size in the median function
+#define BufferSize 200
+#define BufferVariation 64
 #endif
 int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
