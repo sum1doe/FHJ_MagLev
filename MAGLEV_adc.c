@@ -17,7 +17,7 @@ interrupt void  ISRadc(void);
 int16   tempADC[14];
 
 #ifndef BufferSize
-#define BufferSize 2000
+#define BufferSize 200
 #define BufferVariation 64
 #endif
 int16   hallBuffer[BufferSize];
