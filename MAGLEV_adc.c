@@ -289,7 +289,7 @@ interrupt void  ISRadc(void)
              (double) currentcurrent,
              &duty_cv);
 
-    // duty = (Uint16) duty_cv;
+    duty = (int16) duty_cv;
 
     // if (debug != 0) {
     //     duty = debug;
@@ -304,6 +304,7 @@ interrupt void  ISRadc(void)
         duty = 0;
     }
 
+    duty_cv = (double) duty;
 
 
     if (!dir) {
