@@ -271,7 +271,7 @@ interrupt void  ISRadc(void)
     dir = tempADC[1] > 2047;
 
     currentcurrent = 2100-((int16)tempADC[5-dir]);
-    debug = (int16) shunt2current(sp);
+    debug = currentcurrent;
     currentcurrent = (int16) shunt2current(currentcurrent);
 
     currentcurrent = currentcurrent * m + prevCurrent * (1-m);
