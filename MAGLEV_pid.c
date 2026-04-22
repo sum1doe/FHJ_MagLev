@@ -81,7 +81,7 @@ double acc2curr(double position) {
     if (position < 0) {
         return 0;
     }
-    return 17 + 28.0734 * pow(position, 1.29583);
+    return 17 + 28.0734 * pow(position/10, 1.29583);
 }
 
 PID position = {};
