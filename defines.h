@@ -25,8 +25,8 @@
 //
 ////////////////
 
-#define POS_K 1
-#define POS_P 1
+#define POS_K 0.0005
+#define POS_P 3.5
 #define POS_I 0
 #define POS_D 0
 
