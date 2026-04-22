@@ -275,9 +275,9 @@ interrupt void  ISRadc(void)
     sensor_data += coilInterferenceFunc(prevCurrent, dir); // Apply correction for interference from Coil.
 
     dist = LU_SensorDistance[sensor_data];
-    // dir = dir && 2414 > tempADC[3] || 2410 > tempADC[3];
+    dir = dir && 2410 > tempADC[3] || 2414 > tempADC[3];
 
-    dir = tempADC[1] > 2047;
+    // dir = tempADC[1] > 2047;
 
     currentcurrent = 2100-((int16)tempADC[5-dir]);
     if (currentcurrent < 0) currentcurrent = 0;
@@ -315,7 +315,7 @@ interrupt void  ISRadc(void)
     // 3: current
     stepPIDs((double) dist,
              (double)sp*2500.0/4095, // Revert 0 to sp
-             3,
+             0,
              (double) currentcurrent,
              &duty_cv);
 
