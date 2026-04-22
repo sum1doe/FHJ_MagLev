@@ -314,7 +314,7 @@ interrupt void  ISRadc(void)
     // 2: acceleration
     // 3: current
     stepPIDs((double) dist,
-             (double)(sp/4095)*300.0+100, // Revert 0 to sp
+             (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
              0,
              (double) currentcurrent,
              &duty_cv);
