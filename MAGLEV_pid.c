@@ -77,6 +77,13 @@ double current2duty(double current) {
     return 55.6*sqrt(current);
 }
 
+double acc2curr(double position) {
+    if (position < 0) {
+        return 0;
+    }
+    return 17 + 28.0734 * pow(position, 1.29583);
+}
+
 PID position = {};
 PID velocity = {};
 PID acceleration = {};
@@ -113,7 +120,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     updatePID(&position, magDistance, setpoint);
     double vel_sp = 0;
     if (sp_mode < 1) {                              //  Position Loop
-        vel_sp = getCV(&position);
+        vel_sp = acc2curr(Mag2SensorOffset - dist) * getCV(&position);
     } else {
         vel_sp = setpoint;
     }

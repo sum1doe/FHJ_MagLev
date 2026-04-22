@@ -17,6 +17,8 @@
 
 #define EPWM_TIMER_TBPRD  4500                  // PWM Period register 10kHz
 
+#define Mag2SensorOffset 698
+
 ////////////////
 //
 //   PID Values 
