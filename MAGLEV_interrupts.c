@@ -15,6 +15,8 @@ void InitInterrupts(void);                  // Function prototype
 void initTimer(void);
 interrupt void timerISR(void);
 
+extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
+
 extern interrupt void  ISRadc(void);
 extern Uint16 tempADC[];
 
@@ -56,6 +58,11 @@ Uint16 DutyLimit = EPWM_TIMER_TBPRD;
 extern int16 hallBuffer[50];
 extern int16 debug;
 
+extern int16 dist;
+extern int sp;
+extern double currentcurrent;
+extern double duty_cv;
+
 // Timer0 interrupt service routine
 __attribute__((ramfunc))
 interrupt void timerISR(void)
@@ -72,15 +79,13 @@ interrupt void timerISR(void)
         DutyLimit+=1;
     }
 
-    if(!(CpuTimer0.InterruptCount % 100)){ 
-        // int i;
-        // debug = 0;
-        // for (i = 0; i < 50; i ++) {
-        //     if (hallBuffer[i] > debug) {
-        //         debug = hallBuffer[i];
-        //     }
-        // }
-    }
+    // if(!(CpuTimer0.InterruptCount % 1)){ 
+    //     stepPIDs((double) dist,
+    //         (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
+    //         0,
+    //         (double) currentcurrent,
+    //         &duty_cv);
+    // }
 
     // Clear interrupt flag
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
