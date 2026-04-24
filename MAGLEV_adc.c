@@ -244,6 +244,7 @@ Uint16 sensor_data;
 __attribute__((ramfunc))
 interrupt void  ISRadc(void)
 {
+    GpioDataRegs.GPBSET.bit.GPIO6 = 1;
     // entered every 0.1ms
     // ADC read
 
@@ -359,6 +360,7 @@ interrupt void  ISRadc(void)
 
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
+    GpioDataRegs.GPBCLEAR.bit.GPIO6 = 1;
     return;
 }
 //===========================================================================
