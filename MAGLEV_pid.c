@@ -56,12 +56,14 @@ void initPID(PID* pid, double k, double kp, double ki, double kd) {
     pid->prevI = 0;
 }
 
+__attribute__((ramfunc))
 void updatePID(PID* pid, double data, double sp) {
     pid->prevData = pid->data;
     pid->data = data;
     pid->sp = sp;
 }
 
+__attribute__((ramfunc))
 double getCV(PID* pid) {
     pid->prevI = pid->kM * (pid->sp - pid->data) + (1-pid->kM) * pid->prevI;
     pid->cv =   pid->k * (pid->kp * (pid->sp - pid->data) +
@@ -77,6 +79,7 @@ double current2duty(double current) {
     return 55.6*sqrt(current);
 }
 
+__attribute__((ramfunc))
 double acc2curr(double position) {
     if (position < 0) {
         return 0;
@@ -98,7 +101,7 @@ void initAllPIDs() {
 }
 
 extern int16 debug;
-
+__attribute__((ramfunc))
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl) {
     // Data Buffer Updates
     dataIndex++;

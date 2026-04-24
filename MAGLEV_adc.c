@@ -133,6 +133,7 @@ int16 debug = 0;
 
 extern double pow(double a, double b);
 
+__attribute__((ramfunc))
 int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
         return -(int16) (0.359427 * pow(x, 0.648402));
@@ -141,6 +142,7 @@ int16 coilInterferenceFunc(double x, int dir) {
     return (int16) (x / 40);
 }
 
+__attribute__((ramfunc))
 double shunt2current(int16 input) {
     return 0.136 * pow((double) input, 1.5);
 }
