@@ -316,11 +316,11 @@ interrupt void  ISRadc(void)
     // 1: velocity
     // 2: acceleration
     // 3: current
-    stepPIDs((double) dist,
-             (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
-             0,
-             (double) currentcurrent,
-             &duty_cv);
+    // stepPIDs((double) dist,
+    //          (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
+    //          0,
+    //          (double) currentcurrent,
+    //          &duty_cv);
 
     duty = (int16) duty_cv;
 
