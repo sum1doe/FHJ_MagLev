@@ -79,13 +79,13 @@ interrupt void timerISR(void)
         DutyLimit+=1;
     }
 
-    if(!(CpuTimer0.InterruptCount % 1)){ 
-        stepPIDs((double) dist,
-            (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
-            0,
-            (double) currentcurrent,
-            &duty_cv);
-    }
+    // if(!(CpuTimer0.InterruptCount % 1)){ 
+    //     stepPIDs((double) dist,
+    //         (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
+    //         0,
+    //         (double) currentcurrent,
+    //         &duty_cv);
+    // }
 
     // Clear interrupt flag
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
