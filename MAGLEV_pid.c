@@ -124,9 +124,9 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     double vel_sp = 0;
     if (sp_mode < 1) {                              //  Position Loop
         vel_sp = getCV(&position);
-        if (vel_sp > 0.2) {
-            vel_sp = 0.2;
-        }
+        // if (vel_sp > 0.2) {
+        //     vel_sp = 0.2;
+        // }
         if (dist < 500) {
             vel_sp *= acc2curr(Mag2SensorOffset - dist);
         }
