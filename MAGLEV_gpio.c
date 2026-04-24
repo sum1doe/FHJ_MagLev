@@ -47,10 +47,15 @@ void InitGPIO(void)
     GpioCtrlRegs.GPADIR.bit.GPIO5       = 0;        // 0 - Input ; 1 - Output;
     GpioCtrlRegs.GPAPUD.bit.GPIO5       = 1;        // 0-Pullup enabled, 1-Pullup disabled
 
-    GpioCtrlRegs.GPAMUX1.bit.GPIO6      = 1;        // 0=GPIO               1=EPWM3B     2=SPISIMOA   3=ECAP1
+    GpioCtrlRegs.GPAMUX1.bit.GPIO6      = 0;        // 0=GPIO               1=EPWM3B     2=SPISIMOA   3=ECAP1
     GpioCtrlRegs.GPAQSEL1.bit.GPIO6     = 0;        // No qualification for all group A GPIO 0-15
     GpioCtrlRegs.GPADIR.bit.GPIO6       = 1;        // 0 - Input ; 1 - Output;
     GpioCtrlRegs.GPAPUD.bit.GPIO6       = 1;        // 0-Pullup enabled, 1-Pullup disabled
+
+    GpioCtrlRegs.GPAMUX1.bit.GPIO27      = 0;        // 0=GPIO               1=EPWM3B     2=SPISIMOA   3=ECAP1
+    GpioCtrlRegs.GPAQSEL1.bit.GPIO27     = 0;        // No qualification for all group A GPIO 0-15
+    GpioCtrlRegs.GPADIR.bit.GPIO27       = 1;        // 0 - Input ; 1 - Output;
+    GpioCtrlRegs.GPAPUD.bit.GPIO27       = 1;        // 0-Pullup enabled, 1-Pullup disabled
 
     // GPIO Mux configuration for SCI: GPIOs 28 and 29
     GpioCtrlRegs.GPAMUX2.bit.GPIO28     = 1;        // 0=GPIO, 1=SCIRXDA, 2=SDAA, 3=TZ2
