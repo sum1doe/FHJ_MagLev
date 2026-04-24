@@ -15,6 +15,8 @@ void InitInterrupts(void);                  // Function prototype
 void initTimer(void);
 interrupt void timerISR(void);
 
+extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
+
 extern interrupt void  ISRadc(void);
 extern Uint16 tempADC[];
 

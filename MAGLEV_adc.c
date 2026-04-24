@@ -70,7 +70,7 @@ void initAllPIDs();
 // void updatePID(PID* pid, double data, double sp);
 // double getCV(PID* pid);
 // void delPID(PID* pid);
-void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
+extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 int sp = 0;
 int prevSP = 0;
 
