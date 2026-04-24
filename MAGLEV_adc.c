@@ -286,7 +286,7 @@ interrupt void  ISRadc(void)
     if (currentcurrent < 0) currentcurrent = 0;
     // debug = currentcurrent;
 
-    currentcurrent = (int16) shunt2current(currentcurrent);
+    currentcurrent = shunt2current(currentcurrent);
     currentcurrent = 0.05 * currentcurrent + 0.95 * prevCurrent;
     
     prevCurrent = currentcurrent;
