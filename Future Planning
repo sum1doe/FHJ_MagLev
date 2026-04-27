@@ -1,0 +1,21 @@
+Potential Avenues for Improvement on the code side:
+- Attempt to get various functions inline
+- Do some profiling on which parts of the code take so long (and why)
+- Disable the debugging features when in Release mode. (?)
+    > Might need to profile debugging features
+- Use GPIO pins for debugging
+- Investigate better Calculation options
+- Montecarlo approximator for curves (or even just data, although unsure how to interpolate)
+- Calibration version of the code; 
+    > Automatic Calibrations for assorted values; 
+
+
+
+
+Design Revisions:
+- MOAR hall sensors. Hopefully this allows me to calculate position of magnet in 3d
+- Moar coil.
+- Potential for higher voltage ie accuracy in hall sensor? Potential dividers are great to begin with so...
+- Test hall sensor directly under coil (probably unusable but who knows)...
+
+- https://www.infineon.com/assets/row/public/documents/24/49/infineon-tle493d-a2b6-datasheet-en.pdf

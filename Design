@@ -1,0 +1,26 @@
+Currently the setup involves 1 TI LaunchXL 28069M, with an attached BoostXL 8305 as a Motor Driver.
+
+Also attached is a breakout board made by Politecnico Milano, which includes 3 rotary potentiometers and extension pins.
+
+The Coil is attached to Channels A and B.
+The hall sensor with its makeshift breakout board gets 5V and Ground from J5 (I believe), and returns data over ADC Pin A4
+The 3 Potentiometers are attached on B3, A3 and A5; of which I only use the leftmost, Pot3 (B3)
+
+For an exact breakdown of the code, just read the code, specifically MAGLEV_adc.c is most relevant, although MAGLEV_pid.c is also important.
+Note that DutyLimit is set occasionally in MAGLEV_interrupts.c.
+
+The broad structure is best found on the poster, which is slightly inaccurate. 
+Broadly, the program reads a hall sensor, feeds the data to a Position PID controller, which feeds to a current PID controller, 
+    which directs a PWM signal to the Coil's supply. 
+
+Note that the hall sensor reading gets corrected by a function dependent on current, which is not detailed there.
+The output of the Position PID is scaled by a linearisation factor that I based off of measurements of Force respective to height and current.
+The DutyLimit is mostly useful for development; if ever too much current is drawn or an undervoltage is detected, 
+    the PWM's Duty is limited to the point where that no longer occurs
+
+Problems with the setup as of 27/04/2026:
+    The magnet is unstable at the apex of the liftable region.
+    The magnet is unstable if it ever leaves the central column under the magnet, mostly due to a mismatch between 
+        the height the hall sensor reads and the magnet acts as.
+    I'm fairly certain a bunch of the calibration values aren't very accurate
+    The program takes 200-280 us to run (about 3kHz) when we expect <100 us (10kHz)
