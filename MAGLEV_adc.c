@@ -39,8 +39,8 @@ int loop; // Has the buffer been filled at least once?
 
 Uint16 Hall_A, Hall_B, Hall_C, Hall;
 
-Uint16 duty = 0; // PWM signal for top switches //
-Uint16 prevDuty = 0;
+int16 duty = 0; // PWM signal for top switches //
+int16 prevDuty = 0;
 extern Uint16  pwmPeriod;
 extern Uint16  DutyLimit;
 
@@ -134,7 +134,7 @@ int16 debug = 0;
 extern double pow(double a, double b);
 
 __attribute__((ramfunc))
-int16 coilInterferenceFunc(double x, int dir) {
+inline int16 coilInterferenceFunc(double x, int dir) {
     if (dir == 0) {
         return -(int16) (0.359427 * pow(x, 0.648402));
     }
