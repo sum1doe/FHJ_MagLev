@@ -22,16 +22,31 @@
 #define RELEASE 1
 #define DEBUG 1
 #define CALIBRATION 0
+#define TESTING 0
 
+// Testing Override, before anything gets execed
+#if TESTING == 1
+#define RELEASE 0
+#define DEBUG 0
+#define CALIBRATION 0
+#endif
+
+// Debug function implementations.
 #if DEBUG
-#define SGPIO() GpioDataRegs.GPASET.bit.GPIO6 = 1;
-#define CGPIO() GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
-
+#define UseGPIO
 #define SETDEBUG(n,k, v) if (n==k) debug =v; SGPIO(); 
 #define DBCHANGE(var, v) var = v;
 #else
 #define SETDEBUG(n,k, v)
 #define DBCHANGE(var, v)
+#endif
+
+#ifdef UseGPIO
+#define SGPIO() GpioDataRegs.GPASET.bit.GPIO6 = 1;
+#define CGPIO() GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+#else
+#define SGPIO();
+#define CGPIO();
 #endif
 
 ////////////////
