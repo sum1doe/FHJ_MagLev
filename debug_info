@@ -1,0 +1,11 @@
+0: on entry
+1: after ADC
+2: after SP calc -> sp
+3: after sensor_data processing -> sensor_data
+4: -> dist
+5: -> dir
+6: after currentcurrent processing -> currentcurrent
+7: write SensorData to ring hallBuffer
+8: write currentcurrent to ring hallBuffer 
+9: reset hallIndex to 0
+10: set BufferResolution to DEBUG
