@@ -33,16 +33,14 @@ extern char     cmdEnteredFlag;
 extern Uint16   stepRunStop, stepNo, modeNum;
 extern Uint32   Cnt_total, Cnt_on;
 
-// From Ex 4-1
 Uint32 loopCnt = 0, loopToggle = 300000;
-
-int test(int input) {
-    return input;
-}
 
 #if TESTING == 1
 int16 debug = 0;
+int16 dbreturn = 0;
 int dbchan = 0;
+
+volatile Uint32 timercnt = 0;
 #endif
 
 
@@ -90,9 +88,37 @@ void main(void) {
         }
     }
 
-    #else
+    #elif TESTING == 1
+        // 0: curveExecIMA
+        // 1: curveExecFMA
+        // 2: curveExecIP
+        // 3: curveExecFP
+        while (1) {
+            int32 start = 0; // 
 
+            if (dbchan == 10) {
+                timercnt = 0;
+                continue;
+            }
+
+            for (debug; debug--; debug > 0) {
+                switch(dbchan) {
+                    case 0:
+                        curveExecIMA();
+                    break;
+                    case 1:
+                        curveExecFMA();
+                    break;
+                    case 2:
+                        curveExecIP();
+                    break;
+                    case 3:
+                        curveExecFP();
+                    break;
+                    case default:
+                    break;
+                }
+            }
+        }
     #endif
 }
-
-
