@@ -11,20 +11,26 @@
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
 
-void InitAdcRegs(void);
-interrupt void  ISRadc(void);
-
 int16   tempADC[14];
+int16 LU_SensorDistance[4096] = {
+    #include "SensorDistanceCurve.dat"
+};
+
+
+#if DEBUG
+int16 debug = 0;
+int dbchan = 0;
 
 #ifndef BufferSize
 #define BufferSize 200
 #define BufferVariation 64
 #endif
 
+int BufferResolution = 50;
+int16   hallBuffer[BufferSize];
+int     hallIndex = 0;
+#endif
 
-const Uint16 LU_SensorDistance[4096] = {
-    #include "SensorDistanceCurve.dat"
-};
 
 // Expected hall sensor error margin.
 int     count[32];
@@ -44,6 +50,15 @@ extern Uint16  DutyLimit;
 extern int dir; // Magnet Polarity, TODO check which is up/down//
 Uint16 potValue;
 
+int sp = 0;
+int prevSP = 0;
+
+double currentcurrent = 0; // in mA
+double prevCurrent = 0;
+double m = 0.1;
+
+double duty_cv = 0;
+
 // Import Section, effectively
 
 typedef struct PIDStruct {
@@ -62,22 +77,21 @@ typedef struct PIDStruct {
     double prevI;
 } PID;
 
+
+
+// And now, functions declarations
+
+void InitAdcRegs(void);
+interrupt void  ISRadc(void);
+
 // PID* initPID(double kp, double ki, double kd);
 void initAllPIDs();
 // void updatePID(PID* pid, double data, double sp);
 // double getCV(PID* pid);
 // void delPID(PID* pid);
 extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
-int sp = 0;
-int prevSP = 0;
 
-double currentcurrent = 0; // in mA
-double prevCurrent = 0;
-double m = 0.1;
-
-double duty_cv = 0;
-
-// And now, functions!
+// now, implementations.
 
 int mean(int* arr, int len) {
     int32 out = 0;
@@ -124,15 +138,6 @@ int median(int* arr, int len) {
     }
     return min + BufferVariation;
 }
-
-#if DEBUG && RELEASE
-int16 debug = 0;
-int dbchan = 0;
-
-int BufferResolution = 50;
-int16   hallBuffer[BufferSize];
-int     hallIndex = 0;
-#endif
 
 
 extern double pow(double a, double b);
@@ -245,10 +250,18 @@ void InitAdcRegs(void)
 int16 dist;
 Uint16 sensor_data;
 
-#if RELEASE 
 __attribute__((ramfunc))
 interrupt void ISRadc(void)
 {
+// Skip interrupt if we are in Testing mode (see defines.h for details.)
+#if TESTING == 1
+    AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
+    return
+#endif
+
+
+
     GpioDataRegs.GPASET.bit.GPIO6 = 1;
     // entered every 0.1ms
     // ADC read
@@ -315,7 +328,7 @@ interrupt void ISRadc(void)
 			hallIndex = 0;
 		}
 		else if (dbchan == 10) {
-			bufferResolution = debug;
+			BufferResolution = debug;
 		}
 
 		if (dbchan == 7) {
@@ -400,7 +413,6 @@ interrupt void ISRadc(void)
 
     return;
 }
-#endif
 //===========================================================================
 // No more.
 //===========================================================================
