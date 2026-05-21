@@ -1,0 +1,37 @@
+#include <ctype.h>
+#include <string.h>
+#include "F2806x_Device.h"     // DSP2833x Headerfile Include File
+#include "F2806x_Examples.h"   // DSP2833x Examples Include File
+#include "defines.h"
+
+#include <math.h>
+
+#include "MAGLEV_testing.h"
+
+int16 curveExecIMA(int16 x) {
+    int i = 0;
+    int16 out = x;
+    for (i = 0; i < 5; i++) {
+        out += constantsI[2*i];
+        out *= constantsI[2*i+1];
+    }
+    return out;
+}
+
+float curveExecFMA(float x) {
+    int i = 0;
+    float out = x;
+    for (i = 0; i < 5; i++) {
+        out += constantsF[2*i];
+        out *= constantsF[2*i+1];
+    }
+    return out;
+}
+
+int16 curveExecIP(int16 x) {
+    return 18 * (int16) powf((float) x, 3.14159);
+}
+
+float curveExecFP(float x) {
+    return 31.9123 * powf((float) x, 3.14159);
+}

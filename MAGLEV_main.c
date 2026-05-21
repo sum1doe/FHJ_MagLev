@@ -15,6 +15,10 @@
 
 #include "defines.h"
 
+#if TESTING
+#include "MAGLEV_testing.h"
+#endif
+
 // Global function declarations
 extern void InitGPIO(void);
 extern void InitAdcRegs(void);
@@ -36,9 +40,13 @@ int test(int input) {
     return input;
 }
 
+#if TESTING == 1
+int16 debug = 0;
+int dbchan = 0;
+#endif
 
-void main(void)
-{
+
+void main(void) {
 #ifdef _RELEASE
     memcpy(&RamfuncsRunStart, &RamfuncsLoadStart, (Uint32)&RamfuncsLoadSize);
 #endif
@@ -73,6 +81,7 @@ void main(void)
     // Gate enable
     GpioDataRegs.GPBSET.bit.GPIO50 = 1;
 
+    #if TESTING == 0
     // Main loop
     while(1)
     {
@@ -80,6 +89,10 @@ void main(void)
              GpioDataRegs.GPBTOGGLE.bit.GPIO34 = 1;
         }
     }
+
+    #else
+
+    #endif
 }
 
 
