@@ -63,6 +63,10 @@ extern int sp;
 extern double currentcurrent;
 extern double duty_cv;
 
+#if TESTING == 1
+extern Uint32 timercnt;
+#endif
+
 // Timer0 interrupt service routine
 __attribute__((ramfunc))
 interrupt void timerISR(void)
@@ -70,6 +74,8 @@ interrupt void timerISR(void)
     EINT;
     CpuTimer0.InterruptCount++;
     // entered every 1ms
+
+    timercnt++;
 
     if ((tempADC[7] < MinVoltage || currentcurrent > MaxCurrent) && DutyLimit > 0) {
         // debug = currentcurrent;
