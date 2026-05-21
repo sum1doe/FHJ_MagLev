@@ -1,3 +1,4 @@
+# RELEASE Mode.
 0: on entry
 1: after ADC
 2: after SP calc -> sp
@@ -9,3 +10,9 @@
 8: write currentcurrent to ring hallBuffer 
 9: reset hallIndex to 0
 10: set BufferResolution to DEBUG
+
+# TESTING Mode.
+0: curveExecIMA
+1: curveExecFMA
+2: curveExecIP
+3: curveExecFP
