@@ -19,9 +19,14 @@
 
 #define Mag2SensorOffset 698
 
+// RELEASE Flag determines nothing, yet.
 #define RELEASE 1
+// DEBUG Flag determines if various debug features should be activated. (slow)
 #define DEBUG 1
+// CALIBRATION Flag (not implemented) determines if the program should try gather data for curve determination instead.
 #define CALIBRATION 0
+// TESTING Flag determines if program foregoes normal execution and instead determines how long some functions take to execute
+// Uses Debug variable to select function.
 #define TESTING 0
 
 // Testing Override, before anything gets execed
