@@ -19,6 +19,21 @@
 
 #define Mag2SensorOffset 698
 
+#define RELEASE 1
+#define DEBUG 1
+#define CALIBRATION 0
+
+#if DEBUG
+#define SGPIO() GpioDataRegs.GPASET.bit.GPIO6 = 1;
+#define CGPIO() GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+
+#define SETDEBUG(n,k, v) if (n==k) debug =v; SGPIO(); 
+#define DBCHANGE(var, v) var = v;
+#else
+#define SETDEBUG(n,k, v)
+#define DBCHANGE(var, v)
+#endif
+
 ////////////////
 //
 //   PID Values 
@@ -49,12 +64,5 @@
 
 
 #define BS              0x08
-
-#define STEP_FULL       1
-#define STEP_HALF       2
-#define STEP_MICRO8     3
-#define STEP_MICRO16    4
-
-
 
 #endif /* DEFINES_H_ */

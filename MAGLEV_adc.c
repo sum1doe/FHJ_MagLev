@@ -21,9 +21,6 @@ int16   tempADC[14];
 #define BufferVariation 64
 #endif
 
-int BufferResolution = 50;
-int16   hallBuffer[BufferSize];
-int     hallIndex = 0;
 
 const Uint16 LU_SensorDistance[4096] = {
     #include "SensorDistanceCurve.dat"
@@ -128,7 +125,14 @@ int median(int* arr, int len) {
     return min + BufferVariation;
 }
 
+#if DEBUG && RELEASE
 int16 debug = 0;
+int dbchan = 0;
+
+int BufferResolution = 50;
+int16   hallBuffer[BufferSize];
+int     hallIndex = 0;
+#endif
 
 
 extern double pow(double a, double b);
@@ -241,12 +245,15 @@ void InitAdcRegs(void)
 int16 dist;
 Uint16 sensor_data;
 
+#if RELEASE 
 __attribute__((ramfunc))
-interrupt void  ISRadc(void)
+interrupt void ISRadc(void)
 {
     GpioDataRegs.GPASET.bit.GPIO6 = 1;
     // entered every 0.1ms
     // ADC read
+	
+	SETDEBUG(dbchan, 0, 1);
 
     tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0]; // Pot1
     tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
@@ -258,7 +265,7 @@ interrupt void  ISRadc(void)
     tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
 
 
-
+	SETDEBUG(dbchan, 1, 1);
 
     // hallIndex is only 0 here after a full buffer has been written.
     loop = loop || (hallIndex == 0);
@@ -273,12 +280,18 @@ interrupt void  ISRadc(void)
     sp = sp * 0.02 + 0.98 * prevSP;
     prevSP = sp;
 
+	SETDEBUG(dbchan, 2, sp);
+
     sensor_data = tempADC[3]; // Reading hall sensor.
     // debug = coilInterferenceFunc(prevCurrent, dir);
     sensor_data += coilInterferenceFunc(prevCurrent, dir); // Apply correction for interference from Coil.
 
+	SETDEBUG(dbchan, 3, sensor_data);
+
     dist = LU_SensorDistance[sensor_data];
+	SETDEBUG(dbchan, 4, dist);
     dir = dir && 2410 > tempADC[3] || 2414 > tempADC[3];
+	SETDEBUG(dbchan, 5, dir);
 
     // dir = tempADC[1] > 2047;
 
@@ -291,25 +304,47 @@ interrupt void  ISRadc(void)
     
     prevCurrent = currentcurrent;
     
-    hallBuffer[hallIndex] = sensor_data;
-    hallIndex = (hallIndex+1)%BufferSize;
+	SETDEBUG(dbchan, 6, currentcurrent);
+	
 
 
-    // PID Tuning Scheme; might want to add a negative "always on" mode.
+    // PID Tuning Feedback
+	
+	#if DEBUG
+		if (dbchan == 9) {
+			hallIndex = 0;
+		}
+		else if (dbchan == 10) {
+			bufferResolution = debug;
+		}
 
-    // if (debug <= 0 ) {
-    //     sp = 0;
-    //     debug = 0;
-    // }
-    // else {
-    //     debug--;
-    //     if (debug % BufferResolution == 0) {
-    //         hallBuffer[hallIndex] = currentcurrent;
-    //         hallIndex = (hallIndex+1)%BufferSize;
-    //     }
-    // }
+		if (dbchan == 7) {
+			if (debug++ % BufferResolution == 0) {
+				hallBuffer[hallIndex] = sensor_data;
+				hallIndex = (hallIndex+1)%BufferSize;
+			}
+		}
 
+		if (dbchan == 8) {
+			if (debug++ % BufferResolution == 0) {
+				hallBuffer[hallIndex] = currentcurrent;
+				hallIndex = (hallIndex+1)%BufferSize;
+			}
+		}
 
+	#endif
+
+    if (debug <= 0 ) {
+        sp = 0;
+        debug = 0;
+    }
+    else {
+        debug--;
+        if (debug % BufferResolution == 0) {
+            hallBuffer[hallIndex] = currentcurrent;
+            hallIndex = (hallIndex+1)%BufferSize;
+        }
+    }
 
     // SPModes:
     // 0: position
@@ -360,9 +395,12 @@ interrupt void  ISRadc(void)
 
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
-    GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+
+	CGPIO();
+
     return;
 }
+#endif
 //===========================================================================
 // No more.
 //===========================================================================
