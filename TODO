@@ -1,0 +1,7 @@
+[ ] - Ermittlung der Rechenzeiten für Multiplikation und Addition, sowie Multiply-accumulate von Integer- und Fließkommarechnung.
+[ ] - Ermittlung ob ADC Preprocessing via Hardware Möglich ist (auto-offset correction), und fals ja, verwenden.
+[ ] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
+[ ] - Aufsetzen einerDMA zur Abholung der ADC-Daten. Alle Berechnungen würden dann im DMA-interrupt oder Task erfolgen
+[ ] - Verwendung des Control loop accelerators für den ADC bzw DMA interrupt. Hier müsste man überlegen welche tasks man Parallel zur CPU sinnvollerweise ausführen sollte um die rechengeschwindigkeit zu erhöhen
+[ ] - Verwendung vom Sysconfig tool. Nah Möglichkeit sollte die Hardware via sysconfig konfiguriert werden, damit eine spätere Software wartung einfacher durchgeführt werden kann.
+[ ] - gegebenfalls messung mit mehreren Hallsensoren (opional)
