@@ -93,51 +93,51 @@ extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double cu
 
 // now, implementations.
 
-int mean(int* arr, int len) {
-    int32 out = 0;
-    for (i = 0; i < len; i++) {
-        out += arr[i];
-    }
-    return out/len;
-}
+// int mean(int* arr, int len) {
+//     int32 out = 0;
+//     for (i = 0; i < len; i++) {
+//         out += arr[i];
+//     }
+//     return out/len;
+// }
 
 
-int median(int* arr, int len) {
-    int max = 0;
-    int min = 0x7fff;
-    for (i = 0; i < len; i++) {
-        if (arr[i] >= max) {
-            max = arr[i];
-        }
-        if (arr[i] <= min) {
-            min = arr[i];
-        }
-    }
+// int median(int* arr, int len) {
+//     int max = 0;
+//     int min = 0x7fff;
+//     for (i = 0; i < len; i++) {
+//         if (arr[i] >= max) {
+//             max = arr[i];
+//         }
+//         if (arr[i] <= min) {
+//             min = arr[i];
+//         }
+//     }
 
 
-    int cnt_len = max-min+1;
-    if (cnt_len > BufferVariation) {
-        cnt_len = BufferVariation;
-    }
+//     int cnt_len = max-min+1;
+//     if (cnt_len > BufferVariation) {
+//         cnt_len = BufferVariation;
+//     }
 
-    for (i = 0; i < cnt_len; i++) {
-        count[i] = 0;
-    }
+//     for (i = 0; i < cnt_len; i++) {
+//         count[i] = 0;
+//     }
     
 
-    for (i = 0; i < len; i++) {
-        count[arr[i]-min]++;
-    }
+//     for (i = 0; i < len; i++) {
+//         count[arr[i]-min]++;
+//     }
 
-    int target = len/2;
-    for (i = 0; i < cnt_len; i++) {
-        target -= count[i];
-        if (target <= 0) {
-            return min + i;
-        }
-    }
-    return min + BufferVariation;
-}
+//     int target = len/2;
+//     for (i = 0; i < cnt_len; i++) {
+//         target -= count[i];
+//         if (target <= 0) {
+//             return min + i;
+//         }
+//     }
+//     return min + BufferVariation;
+// }
 
 
 extern double pow(double a, double b);
@@ -234,10 +234,11 @@ void InitAdcRegs(void)
     AdcRegs.ADCSOC7CTL.bit.TRIGSEL  = 5;    // Same trigger
     AdcRegs.ADCSOC7CTL.bit.ACQPS    = 10;    // set SOC0 S/H Window to 7 ADC Clock Cycles, (6 ACQPS plus 1)
 
-
+    #if DEBUG
     for (i = 0; i < BufferSize; i++) {
         hallBuffer[i] = 0;
     }
+    #endif
 
     loop = 0;
 
@@ -281,9 +282,8 @@ interrupt void ISRadc(void)
 	SETDEBUG(dbchan, 1, 1);
 
     // hallIndex is only 0 here after a full buffer has been written.
-    loop = loop || (hallIndex == 0);
-
-    int useful_len = loop ? BufferSize : hallIndex;
+    // loop = loop || (hallIndex == 0);
+    // int useful_len = loop ? BufferSize : hallIndex;
 
     // mn = mean(hallBuffer, useful_len);
     // md = median(hallBuffer, useful_len);
@@ -346,19 +346,7 @@ interrupt void ISRadc(void)
 		}
 
 	#endif
-
-    if (debug <= 0 ) {
-        sp = 0;
-        debug = 0;
-    }
-    else {
-        debug--;
-        if (debug % BufferResolution == 0) {
-            hallBuffer[hallIndex] = currentcurrent;
-            hallIndex = (hallIndex+1)%BufferSize;
-        }
-    }
-
+    
     // SPModes:
     // 0: position
     // 1: velocity

@@ -104,18 +104,18 @@ void main(void) {
             for (debug; debug--; debug > 0) {
                 switch(dbchan) {
                     case 0:
-                        curveExecIMA();
+                        start = curveExecIMA(start);
                     break;
                     case 1:
-                        curveExecFMA();
+                        start = curveExecFMA(start);
                     break;
                     case 2:
-                        curveExecIP();
+                        start = curveExecIP(start);
                     break;
                     case 3:
-                        curveExecFP();
+                        start = curveExecFP(start);
                     break;
-                    case default:
+                    default:
                     break;
                 }
             }
