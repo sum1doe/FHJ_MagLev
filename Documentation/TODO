@@ -8,4 +8,9 @@ Big Goals
 [ ] - gegebenfalls messung mit mehreren Hallsensoren (opional)
 
 Smaller Goals
-[ ] - See if back e.m.f. can be determined.
+[ ] - See if back e.m.f. can be determined, and if so if it correlates with height or velocity or whatnot.
+[ ] - Try inline again, bzw check O level.
+[ ] - Profiling
+[ ] - Calibration
+[ ] - Develop pipeline for data into curves via either pow-based or add/mult based (depending on efficiency)
+[ ] - See about increasing stack size to allow for more curve LUTs

@@ -8,6 +8,8 @@
 
 #include "MAGLEV_testing.h"
 
+// TODO: Make these ramfuncs.
+
 int16 curveExecIMA(int16 x) {
     int i = 0;
     int16 out = x;
