@@ -163,7 +163,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     if (cv > 2500) {
         cv = 2500;
     }
-    if (cv < 0) {
+    else if (cv < 0) {
         cv = 0;
     }
 
