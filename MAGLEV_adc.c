@@ -263,7 +263,7 @@ interrupt void ISRadc(void)
 
 
     SGPIO6();
-    CGPIO7();
+    SGPIO7();
     // entered every 0.1ms
     // ADC read
 	
@@ -398,7 +398,7 @@ interrupt void ISRadc(void)
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
 
 	CGPIO6();
-    SGPIO7();
+    CGPIO7();
 
     return;
 }
