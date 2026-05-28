@@ -262,8 +262,8 @@ interrupt void ISRadc(void)
 #endif
 
 
-
-    GpioDataRegs.GPASET.bit.GPIO6 = 1;
+    SGPIO6();
+    CGPIO7();
     // entered every 0.1ms
     // ADC read
 	
@@ -397,7 +397,8 @@ interrupt void ISRadc(void)
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
 
-	CGPIO();
+	CGPIO6();
+    SGPIO7();
 
     return;
 }

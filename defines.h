@@ -23,14 +23,17 @@
 // DEBUG Flag determines if various debug features should be activated. (slow)
 // CALIBRATION Flag (not implemented) determines if the program should try gather data for curve determination instead.
 // TESTING Flag determines if program foregoes normal execution and instead determines how long some functions take to execute
+
+
 //         Uses Debug variable to select function.
-#define RELEASE 
+#define TESTING 0
+#if TESTING == 0
+#define RELEASE 0
 #define DEBUG 1
-#define CALIBRATION 0
-#define TESTING 1
+#define CALIBRATION 0 
+#else
 
 // Testing Override, before anything gets execed
-#if TESTING == 1
 #define RELEASE 0
 #define DEBUG 0
 #define CALIBRATION 0
@@ -39,7 +42,7 @@
 // Debug function implementations.
 #if DEBUG
 #define UseGPIO
-#define SETDEBUG(n,k, v) if (n==k) debug =v; SGPIO(); 
+#define SETDEBUG(n,k, v) CGPIO6(); if (n==k) {debug=v; SGPIO6();} 
 #define DBCHANGE(var, v) var = v;
 #else
 #define SETDEBUG(n,k, v)
@@ -47,11 +50,15 @@
 #endif
 
 #ifdef UseGPIO
-#define SGPIO() GpioDataRegs.GPASET.bit.GPIO6 = 1;
-#define CGPIO() GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+#define SGPIO6() GpioDataRegs.GPASET.bit.GPIO6 = 1;
+#define CGPIO6() GpioDataRegs.GPACLEAR.bit.GPIO6 = 1;
+#define SGPIO7() GpioDataRegs.GPASET.bit.GPIO7 = 1;
+#define CGPIO7() GpioDataRegs.GPACLEAR.bit.GPIO7 = 1;
 #else
-#define SGPIO();
-#define CGPIO();
+#define SGPIO6();
+#define CGPIO6();
+#define SGPIO7();
+#define CGPIO7();
 #endif
 
 ////////////////
