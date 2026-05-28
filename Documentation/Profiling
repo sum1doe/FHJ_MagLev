@@ -1,0 +1,11 @@
+Initial Measurement (Commit 6dd4626)
+
+Weird spike to start with but seemingly unrelated?
+
+adc takes 250ns
+c1 takes 230ns
+c2 takes 10us
+c3 takes 115ns
+c4 takes 160ns
+c5 takes 82-84ns (Additional testing confirms shunt2current call is the problem, inline is ineffective.)
+c6 takes 108us

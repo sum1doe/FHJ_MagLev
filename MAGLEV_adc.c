@@ -153,7 +153,7 @@ inline int16 coilInterferenceFunc(double x, int dir) {
 
 __attribute__((ramfunc))
 double shunt2current(int16 input) {
-    return 0.136 * pow((double) input, 1.5);
+    return 0.136 * powf((double) input, 1.5);
 }
 
 void InitAdcRegs(void)
@@ -312,7 +312,10 @@ interrupt void ISRadc(void)
     if (currentcurrent < 0) currentcurrent = 0;
     // debug = currentcurrent;
 
+    SETDEBUG(dbchan, 50, 1)
     currentcurrent = shunt2current(currentcurrent);
+    SETDEBUG(dbchan, 51, 1)
+
     currentcurrent = 0.05 * currentcurrent + 0.95 * prevCurrent;
     
     prevCurrent = currentcurrent;
@@ -347,6 +350,8 @@ interrupt void ISRadc(void)
 
 	#endif
     
+	SETDEBUG(dbchan, 60, 1);
+
     // SPModes:
     // 0: position
     // 1: velocity
@@ -357,6 +362,8 @@ interrupt void ISRadc(void)
              0,
              (double) currentcurrent,
              &duty_cv);
+
+	SETDEBUG(dbchan, 69, 1);
 
     duty = (int16) duty_cv;
 

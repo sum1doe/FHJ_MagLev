@@ -3,9 +3,20 @@
 1: after ADC
 2: after SP calc -> sp
 3: after sensor_data processing -> sensor_data
-4: -> dist
-5: -> dir
+4: calcing dist
+5: calcing dir
+50: immediately before function call
+51: immediately after function call
 6: after currentcurrent processing -> currentcurrent
+60: immediately before StepPID call 
+61: Arriving in StepPID
+62: after parsing all kinematic data
+63: before acc2curr
+64: after acc2curr
+65: after calculating position cv
+66: after calculating current cv
+67: end of function
+69: immediately after StepPID call
 7: write SensorData to ring hallBuffer
 8: write currentcurrent to ring hallBuffer 
 9: reset hallIndex to 0

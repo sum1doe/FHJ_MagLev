@@ -14,6 +14,7 @@ Smaller Goals
 [ ] - Calibration
 [ ] - Develop pipeline for data into curves via either pow-based or add/mult based (depending on efficiency)
 [ ] - See about increasing stack size to allow for more curve LUTs
+[ ] - Figure out why Release Build Config is so dang slow.
 
 Quick!
 [ ] - Put testing funcs in RAMFuncs

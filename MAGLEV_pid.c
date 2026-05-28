@@ -84,7 +84,7 @@ double acc2curr(double position) {
     if (position < 0) {
         return 0;
     }
-    return 17 + 28.0734 * pow(position/10, 1.29583);
+    return 17 + 28.0734 * powf(position/10, 1.29583);
 }
 
 PID position = {};
@@ -100,10 +100,26 @@ void initAllPIDs() {
     initPID(&current, CUR_K, CUR_P, CUR_I, CUR_D);
 }
 
+#if DEBUG
+extern int16 debug;
+extern int dbchan;
+
+#ifndef BufferSize
+#define BufferSize 200
+#define BufferVariation 64
+#endif
+
+extern int BufferResolution;
+extern int16   hallBuffer;
+extern int     hallIndex;
+#endif
+
 extern int16 debug;
 __attribute__((ramfunc))
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl) {
     // Data Buffer Updates
+	SETDEBUG(dbchan, 61, 1);
+    
     dataIndex++;
     dataIndex %= dataIndex;
     dataBuf[dataIndex] = magDistance;
@@ -118,6 +134,8 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
     int acc = prevvel - vel;
 
+	SETDEBUG(dbchan, 62, 1);
+
     // PID Control
     // Setpoint doesn't matter if getCV isn't called.
     updatePID(&position, magDistance, setpoint);
@@ -127,12 +145,18 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
         // if (vel_sp > 0.2) {
         //     vel_sp = 0.2;
         // }
+        SETDEBUG(dbchan, 63, 1);
         if (dist < 500) {
             vel_sp *= acc2curr(Mag2SensorOffset - dist);
         }
+        SETDEBUG(dbchan, 64, 1);
+
     } else {
         vel_sp = setpoint;
     }
+
+	SETDEBUG(dbchan, 65, 1);
+
 
     // double acc_sp = 0;
     // updatePID(&velocity, vel, vel_sp);
@@ -159,6 +183,8 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     updatePID(&current, currentCurrent, curr_sp);
     cv = getCV(&current);
     // debug = cv;
+	SETDEBUG(dbchan, 66, 1);
+
 
     if (cv > 2500) {
         cv = 2500;
@@ -171,4 +197,6 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     // Output value.
     // *pwmControl = current2duty(curr_sp);
     // *pwmControl = curr_sp;
+	SETDEBUG(dbchan, 67, 1);
+
 }
