@@ -1,0 +1,3 @@
+For LHH the 3rd pin depends on a Debug probe being available. If it isn't, it sets itself to L, with LHL being the Wait mode.
+    From page 7 in the 28069M overview, the Boot Switches (S1) should be either in LHL or HHL depending on which mode is wanted.
+    Page 206 in the TMS320x2806x technical reference manual details a bit more on the effects of the modes.
