@@ -14,3 +14,11 @@ Smaller Goals
 [ ] - Calibration
 [ ] - Develop pipeline for data into curves via either pow-based or add/mult based (depending on efficiency)
 [ ] - See about increasing stack size to allow for more curve LUTs
+
+Quick!
+[ ] - Put testing funcs in RAMFuncs
+[ ] - Use SPRC664; 1.1.1.1 in https://www.ti.com/lit/ug/spruhs1c/spruhs1c.pdf?ts=1779790575992
+      https://dev.ti.com/tirex/explore/node?isTheia=false&node=A__ALJjJcDbbJNcrC7ekqxRLw__C2000WARE__1kRFgrO__LATEST
+      Details how to actually use the FastRTS   
+[ ] - ACQPS
+      https://www.ti.com/lit/an/spracp5/spracp5.pdf?ts=1779863891038
