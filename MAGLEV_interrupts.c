@@ -75,7 +75,9 @@ interrupt void timerISR(void)
     CpuTimer0.InterruptCount++;
     // entered every 1ms
 
+    #if TESTING
     timercnt++;
+    #endif
 
     if ((tempADC[7] < MinVoltage || currentcurrent > MaxCurrent) && DutyLimit > 0) {
         // debug = currentcurrent;
