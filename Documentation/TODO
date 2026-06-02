@@ -9,12 +9,14 @@ Big Goals
 
 Smaller Goals
 [ ] - See if back e.m.f. can be determined, and if so if it correlates with height or velocity or whatnot.
+      Try changing PWM B flag during execution for current analysis? need higher rates tho.
 [ ] - Try inline again, bzw check O level.
 [ ] - Profiling
-[ ] - Calibration
+[ ] - Calibrations
 [ ] - Develop pipeline for data into curves via either pow-based or add/mult based (depending on efficiency)
 [ ] - See about increasing stack size to allow for more curve LUTs
 [ ] - Figure out why Release Build Config is so dang slow.
+[ ] - Kallman filter?
 
 Quick!
 [ ] - Put testing funcs in RAMFuncs

@@ -136,6 +136,9 @@ SECTIONS
                          RUN_START(_RamfuncsRunStart),
                          LOAD_SIZE(_RamfuncsLoadSize),
                          PAGE = 0
+                         {
+                           --library=rts2800_fpu32_fast_supplement.lib<pow_f32.obj> (.text)
+                         }
    #else
    ramfuncs            : LOAD = FLASHD,
                          RUN = RAML0_L4,
