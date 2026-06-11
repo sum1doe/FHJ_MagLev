@@ -176,7 +176,6 @@
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.MAP_FILE.298236203" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.MAP_FILE" value="${ProjName}.map" valueType="string"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.OUTPUT_FILE.1534377203" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.OUTPUT_FILE" value="${ProjName}.out" valueType="string"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.LIBRARY.1465304416" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.LIBRARY" valueType="libs">
-                                    <listOptionValue value="rts2800_fpu32_fast_supplement.lib"/>
                                     <listOptionValue value="libc.a"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.SEARCH_PATH.851543347" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.linkerID.SEARCH_PATH" valueType="libPaths">
