@@ -17,7 +17,12 @@ interrupt void timerISR(void);
 
 extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
 
+#if CALIBRATION
+extern interrupt void ISRadccalibration(void);
+#else
 extern interrupt void  ISRadc(void);
+#endif
+
 extern Uint16 tempADC[];
 
 extern Uint16 duty;

@@ -409,6 +409,19 @@ interrupt void ISRadc(void)
 
     return;
 }
+
+
+__attribute__((ramfunc))
+interrupt void ISRadccalibration(void)
+{
+
+    AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
+
+    return;
+}
+
+
 //===========================================================================
 // No more.
 //===========================================================================
