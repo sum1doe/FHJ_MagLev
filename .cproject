@@ -143,9 +143,6 @@
                                     <listOptionValue value="${CG_TOOL_ROOT}/include"/>
                                     <listOptionValue value="C:\ti\C2000Ware_26_00_00_00\device_support\f2806x\common\include"/>
                                     <listOptionValue value="C:\ti\C2000Ware_26_00_00_00\device_support\f2806x\headers\include"/>
-                                    <listOptionValue value="C:\ti\C2000Ware_26_00_00_00\libraries\math\FPUfastRTS\c28\lib"/>
-                                    <listOptionValue value="C:\ti\C2000Ware_26_00_00_00\libraries\math\FPUfastRTS\c28\examples"/>
-                                    <listOptionValue value="C:\ti\C2000Ware_26_00_00_00\libraries\math\FPUfastRTS\c28\examples\common"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEFINE.732263503" superClass="com.ti.ccstudio.buildDefinitions.C2000_22.6.compilerID.DEFINE" valueType="definedSymbols">
                                     <listOptionValue value="_INLINE"/>
