@@ -11,11 +11,9 @@
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
 
-#include "fastrts.h"
-
 int16   tempADC[14];
 int16 LU_SensorDistance[4096] = {
-    #include "SensorDistanceCurve.dat"
+    #include "Curves/SensorDistanceCurve.dat"
 };
 
 
