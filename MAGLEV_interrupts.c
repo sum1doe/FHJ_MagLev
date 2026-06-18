@@ -45,7 +45,12 @@ void InitInterrupts(void)
     PieCtrlRegs.PIEIER1.bit.INTx7 = 1;          // Enable Timer0 interrupt in PIE Group 1
     IER |= M_INT1;                              // Enable CPU INT1
 
+#if !CALIBRATION
     PieVectTable.ADCINT1 = &ISRadc;
+#else
+    PieVectTable.ADCINT1 = &ISRadccalibration;
+#endif
+
     PieCtrlRegs.PIEIER1.bit.INTx1 = 1;          // Enable PIE Group 1 INT1:ADC
     IER |= M_INT1;                              // Enable CPU INT1
 

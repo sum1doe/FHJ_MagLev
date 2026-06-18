@@ -10,14 +10,33 @@
 #include "F2806x_Device.h"     // DSP2833x Headerfile Include File
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
+#include "MAGLEV_pid.h"
+#include "MAGLEV_curves.h"
 
 int16   tempADC[14];
+
+// To change size of generated 
 int16 LU_SensorDistance[4096] = {
     #include "Curves/SensorDistanceCurve.dat"
 };
 
+// TODO Recheck size.
+Uint16 LU_CoilInterference[1024] = {
+    // #include "Curves/CoilInterference.dat"
+    
+};
+
+double LU_ShuntToCurrent[1024] = {
+    // #include "Curves/ShuntToCurrent.dat"
+    
+};
+
 
 #if DEBUG
+
+// Flag debug as made so that CALIBRATION doesn't mind.
+#define debug_deffed
+
 int16 debug = 0;
 int dbchan = 0;
 
@@ -31,9 +50,6 @@ int16   hallBuffer[BufferSize];
 int     hallIndex = 0;
 #endif
 
-
-// Expected hall sensor error margin.
-int     count[32];
 
 int i;
 int md, mn;
@@ -59,102 +75,28 @@ double m = 0.1;
 
 double duty_cv = 0;
 
-// Import Section, effectively
-
-typedef struct PIDStruct {
-    // Input
-    double sp;
-    double data;
-    // Config
-    double kp;
-    double ki;
-    double kd;
-    double kM; // Memory Coefficient
-    // Output
-    double cv;
-    // Processing
-    double prevData;
-    double prevI;
-} PID;
-
-
-
 // And now, functions declarations
 
 void InitAdcRegs(void);
+#if !CALIBRATION
 interrupt void  ISRadc(void);
+#else
+interrupt void  ISRadccalibration(void);
+#endif
 
-// PID* initPID(double kp, double ki, double kd);
-void initAllPIDs();
-// void updatePID(PID* pid, double data, double sp);
-// double getCV(PID* pid);
-// void delPID(PID* pid);
-extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
+// Calibration Mode conditional defines
 
-// now, implementations.
+#if CALIBRATION
+extern PID current;
 
-// int mean(int* arr, int len) {
-//     int32 out = 0;
-//     for (i = 0; i < len; i++) {
-//         out += arr[i];
-//     }
-//     return out/len;
-// }
+double data[200] = {};
+int16 count[200] = {};
 
+#ifndef debug_deffed
+int16 debug = 0;
+#endif
+#endif
 
-// int median(int* arr, int len) {
-//     int max = 0;
-//     int min = 0x7fff;
-//     for (i = 0; i < len; i++) {
-//         if (arr[i] >= max) {
-//             max = arr[i];
-//         }
-//         if (arr[i] <= min) {
-//             min = arr[i];
-//         }
-//     }
-
-
-//     int cnt_len = max-min+1;
-//     if (cnt_len > BufferVariation) {
-//         cnt_len = BufferVariation;
-//     }
-
-//     for (i = 0; i < cnt_len; i++) {
-//         count[i] = 0;
-//     }
-    
-
-//     for (i = 0; i < len; i++) {
-//         count[arr[i]-min]++;
-//     }
-
-//     int target = len/2;
-//     for (i = 0; i < cnt_len; i++) {
-//         target -= count[i];
-//         if (target <= 0) {
-//             return min + i;
-//         }
-//     }
-//     return min + BufferVariation;
-// }
-
-
-extern double pow(double a, double b);
-
-__attribute__((ramfunc))
-inline int16 coilInterferenceFunc(double x, int dir) {
-    if (dir == 0) {
-        return -(int16) (0.359427 * pow(x, 0.648402));
-    }
-    // return (int16) (0.109508 * pow(x, 0.797352));
-    return (int16) (x / 40);
-}
-
-__attribute__((ramfunc))
-double shunt2current(int16 input) {
-    return 0.136 * powf((double) input, 1.5);
-}
 
 void InitAdcRegs(void)
 {
@@ -242,7 +184,12 @@ void InitAdcRegs(void)
 
     loop = 0;
 
+#if CALIBRATION
+    initPID(&current, CUR_K, CUR_P, CUR_I, CUR_D);
+    i = 0;
+#else
     initAllPIDs();
+#endif
 
     EDIS;
 }
@@ -250,19 +197,12 @@ void InitAdcRegs(void)
 
 int16 dist;
 Uint16 sensor_data;
-
+#if !CALIBRATION
 __attribute__((ramfunc))
+#endif
 interrupt void ISRadc(void)
 {
-// Skip interrupt if we are in Testing mode (see defines.h for details.)
-#if TESTING == 1
-    AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
-    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
-    return
-#endif
-
-
-    SGPIO6();
+    SGPIO6(); // Macro includes checking for DEBUG mode.
     SGPIO7();
     // entered every 0.1ms
     // ADC read
@@ -297,11 +237,14 @@ interrupt void ISRadc(void)
 
     sensor_data = tempADC[3]; // Reading hall sensor.
     // debug = coilInterferenceFunc(prevCurrent, dir);
-    sensor_data += coilInterferenceFunc(prevCurrent, dir); // Apply correction for interference from Coil.
+
+    // Old:
+    // sensor_data += coilInterferenceFunc(prevCurrent, dir); // Apply correction for interference from Coil.
+    sensor_data += LU_CoilInterference[(int)prevCurrent];
 
 	SETDEBUG(dbchan, 3, sensor_data);
 
-    dist = LU_SensorDistance[sensor_data];
+    dist = LU_SensorDistance[sensor_data]; 
 	SETDEBUG(dbchan, 4, dist);
     dir = dir && 2410 > tempADC[3] || 2414 > tempADC[3];
 	SETDEBUG(dbchan, 5, dir);
@@ -313,7 +256,10 @@ interrupt void ISRadc(void)
     // debug = currentcurrent;
 
     SETDEBUG(dbchan, 50, 1)
-    currentcurrent = shunt2current(currentcurrent);
+    // old
+    // currentcurrent = shunt2current(currentcurrent);
+
+    currentcurrent = LU_ShuntToCurrent[(int) currentcurrent];
     SETDEBUG(dbchan, 51, 1)
 
     currentcurrent = 0.05 * currentcurrent + 0.95 * prevCurrent;
@@ -411,9 +357,48 @@ interrupt void ISRadc(void)
 }
 
 
+// Testing done with 9955 ohm resistor.
+#if CALIBRATION
 __attribute__((ramfunc))
+#endif
 interrupt void ISRadccalibration(void)
-{
+{   
+    tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0]; // Pot1
+    tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
+    tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0]; // Pot3
+    tempADC[3]  = (int16)(AdcResult.ADCRESULT3  & 0xFFF);// - uOffsetCh[0]; // Hall
+    tempADC[4]  = (int16)(AdcResult.ADCRESULT4  & 0xFFF);// - uOffsetCh[0]; // IA
+    tempADC[5]  = (int16)(AdcResult.ADCRESULT5  & 0xFFF);// - uOffsetCh[0]; // IB
+    tempADC[6]  = (int16)(AdcResult.ADCRESULT6  & 0xFFF);// - uOffsetCh[0]; // IC
+    tempADC[7]  = (int16)(AdcResult.ADCRESULT7  & 0xFFF);// - uOffsetCh[0]; // V Something
+
+    // Change SP
+    i++;
+    if (!(i % 10000)) {
+        i=0;
+        sp += 10;
+
+        if (sp > 10) {
+            sp = 0;
+        }
+    }
+
+    sp = debug;
+    // Do current PID
+    updatePID(&current, (double) tempADC[6], sp);
+    duty = getCV(&current);
+
+    if (i < 100) {
+        duty = 0;
+    }
+
+    // Adjust Duty
+    EPwm1Regs.CMPA.half.CMPA = duty;
+    EPwm1Regs.CMPB = 0;
+    EPwm2Regs.CMPA.half.CMPA = 0;
+    EPwm2Regs.CMPB = pwmPeriod;                                        
+    EPwm3Regs.CMPA.half.CMPA = 0;
+    EPwm3Regs.CMPB = 0;
 
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE

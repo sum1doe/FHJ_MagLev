@@ -11,7 +11,8 @@
 #include "F2806x_Device.h"     // DSP2833x Headerfile Include File
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
-#include "math.h"
+#include "MAGLEV_pid.h"
+#include "MAGLEV_curves.h"
 
 #ifndef DataBuffer
 #define DataBuffer 5
@@ -22,29 +23,11 @@ int dataIndex = -1;
 
 double cv = 0;
 
-typedef struct PIDStruct {
-    // Input
-    double sp;
-    double data;
-    // Config
-    double k;
-    double kp;
-    double ki;
-    double kd;
-    double kM; // Memory Coefficient
-    // Output
-    double cv;
-    // Processing
-    double prevData;
-    double prevI;
-} PID;
+int16   tempADC[14];
+int16 LU_AccelToCurrent[4096] = {
+    #include "Curves/AccelToCurrent.dat"
+};
 
-void initPID(PID* pid, double k, double kp, double ki, double kd);
-void updatePID(PID* pid, double data, double sp);
-double getCV(PID* pid);
-void delPID(PID* pid);
-
-    
 void initPID(PID* pid, double k, double kp, double ki, double kd) {
     pid->k = k;
     pid->kp = kp;
@@ -71,20 +54,6 @@ double getCV(PID* pid) {
                 pid->kd * (pid->data-pid->prevData));
 
     return pid->cv;
-}
-
-// Decent approximation from data gathered.
-// https://www.wolframalpha.com/input?i2d=true&i=%7B%7B1%2C7%7D%2C%7B5%2C219%7D%2C%7B33%2C405%7D%2C%7B99%2C606%7D%2C%7B211%2C830%7D%2C%7B338%2C1024%7D%2C%7B456%2C1155%7D%2C%7B629%2C1374%7D%2C%7B816%2C1555%7D%2C%7B1088%2C1812%7D%2C%7B1346%2C2020%7D%2C%7B1749%2C2304%7D%2C%7B2228%2C2610%7D%2C%7B2515%2C2830%7D%7Dpower+fit 
-double current2duty(double current) {
-    return 55.6*sqrt(current);
-}
-
-__attribute__((ramfunc))
-double acc2curr(double position) {
-    if (position < 0) {
-        return 0;
-    }
-    return 17 + 28.0734 * powf(position/10, 1.29583);
 }
 
 PID position = {};
@@ -147,7 +116,12 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
         // }
         SETDEBUG(dbchan, 63, 1);
         if (dist < 500) {
-            vel_sp *= acc2curr(Mag2SensorOffset - dist);
+            // Mag2SensorOffset in defines.h
+
+            // Old:
+            // vel_sp *= acc2curr(Mag2SensorOffset - dist);
+
+            vel_sp *= LU_AccelToCurrent[Mag2SensorOffset - dist];
         }
         SETDEBUG(dbchan, 64, 1);
 
