@@ -1,2 +1,10 @@
 "expression must have integral type"
 When working with lookup tables, ensure that the index you are providing is an integer.
+
+"Program will not fit into available Memory"
+Remember 
+Check "View > Memory Allocation"
+Edit .cmd file, find the offending line, and put it in a ram where it will fit.
+
+'Program too slow'
+Wobble a GPIO pin to represent runtime and look at the output on an oscilloscope

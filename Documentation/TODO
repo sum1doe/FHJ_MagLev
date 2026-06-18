@@ -1,11 +1,11 @@
 Big Goals
+[ ] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
 [ ] - Ermittlung der Rechenzeiten für Multiplikation und Addition, sowie Multiply-accumulate von Integer- und Fließkommarechnung.
 [ ] - Ermittlung ob ADC Preprocessing via Hardware Möglich ist (auto-offset correction), und fals ja, verwenden.
-[ ] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
-[ ] - Aufsetzen einerDMA zur Abholung der ADC-Daten. Alle Berechnungen würden dann im DMA-interrupt oder Task erfolgen
+[ ] - Aufsetzen einer DMA zur Abholung der ADC-Daten. Alle Berechnungen würden dann im DMA-interrupt oder Task erfolgen
 [ ] - Verwendung des Control loop accelerators für den ADC bzw DMA interrupt. Hier müsste man überlegen welche tasks man Parallel zur CPU sinnvollerweise ausführen sollte um die rechengeschwindigkeit zu erhöhen
 [ ] - Verwendung vom Sysconfig tool. Nah Möglichkeit sollte die Hardware via sysconfig konfiguriert werden, damit eine spätere Software wartung einfacher durchgeführt werden kann.
-[ ] - gegebenfalls messung mit mehreren Hallsensoren (opional)
+[ ] - gegebenfalls messung mit mehreren Hallsensoren (optional)
 
 Smaller Goals
 [ ] - See if back e.m.f. can be determined, and if so if it correlates with height or velocity or whatnot.
@@ -17,11 +17,4 @@ Smaller Goals
 [ ] - See about increasing stack size to allow for more curve LUTs
 [ ] - Figure out why Release Build Config is so dang slow.
 [ ] - Kallman filter?
-
-Quick!
-[ ] - Put testing funcs in RAMFuncs
-[ ] - Use SPRC664; 1.1.1.1 in https://www.ti.com/lit/ug/spruhs1c/spruhs1c.pdf?ts=1779790575992
-      https://dev.ti.com/tirex/explore/node?isTheia=false&node=A__ALJjJcDbbJNcrC7ekqxRLw__C2000WARE__1kRFgrO__LATEST
-      Details how to actually use the FastRTS   
-[ ] - ACQPS
-      https://www.ti.com/lit/an/spracp5/spracp5.pdf?ts=1779863891038
+[ ] - Check out builtin profiler. Codecov?
