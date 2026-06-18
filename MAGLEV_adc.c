@@ -16,19 +16,17 @@
 int16   tempADC[14];
 
 // To change size of generated 
-int16 LU_SensorDistance[4096] = {
+const int16 LU_SensorDistance[4096] = {
     #include "Curves/SensorDistanceCurve.dat"
 };
 
 // TODO Recheck size.
-Uint16 LU_CoilInterference[1024] = {
-    // #include "Curves/CoilInterference.dat"
-    
+const Uint16 LU_CoilInterference[1024] = {
+    #include "Curves/CoilInterference.dat"
 };
 
-double LU_ShuntToCurrent[1024] = {
-    // #include "Curves/ShuntToCurrent.dat"
-    
+const float LU_ShuntToCurrent[1024] = {
+    #include "Curves/ShuntToCurrent.dat"
 };
 
 

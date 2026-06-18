@@ -23,8 +23,7 @@ int dataIndex = -1;
 
 double cv = 0;
 
-int16   tempADC[14];
-int16 LU_AccelToCurrent[4096] = {
+const int16 LU_AccelToCurrent[4096] = {
     #include "Curves/AccelToCurrent.dat"
 };
 

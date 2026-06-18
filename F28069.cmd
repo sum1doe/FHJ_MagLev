@@ -151,7 +151,7 @@ SECTIONS
    csm_rsvd            : > CSM_RSVD,   PAGE = 0
 
    /* Allocate uninitalized data sections: */
-   .stack              : > RAMM0,      PAGE = 1
+   .stack              : > RAML6,      PAGE = 1
    .ebss               : > RAML5,      PAGE = 1
    .esysmem            : > RAML5,      PAGE = 1
    .cio			       : > RAML5,      PAGE = 1

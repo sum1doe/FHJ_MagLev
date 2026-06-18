@@ -1,5 +1,5 @@
 #include "F2806x_Device.h"
-#include <math.h>
+// #include <math.h>
 
 // __attribute__((ramfunc))
 // int16 coilInterferenceFunc(double x, int dir) {
