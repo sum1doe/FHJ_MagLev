@@ -71,7 +71,12 @@ void main(void) {
     EALLOW;
     EINT;                               // Enable Global interrupt INTM
     ERTM;                               // Enable realtime emulation mode
+    
+    SysCtrlRegs.SCSR |= 1; // WDOVERRIDE to 1 so the following is enabled
+    SysCtrlRegs.WDCR |= 1<<5;
+    
     EDIS;
+
 
     // LEDs initially off
     GpioDataRegs.GPBSET.bit.GPIO34 = 1;
