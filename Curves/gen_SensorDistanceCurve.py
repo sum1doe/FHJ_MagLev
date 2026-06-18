@@ -21,4 +21,5 @@ for i in range(4096):
 
 file = open("SensorDistanceCurve.dat", "w")
 file.write(output[:-1])
+file.write("\n")
 file.close()
