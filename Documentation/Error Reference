@@ -1,0 +1,2 @@
+"expression must have integral type"
+When working with lookup tables, ensure that the index you are providing is an integer.

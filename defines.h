@@ -22,7 +22,7 @@
 // RELEASE Flag determines nothing, yet.
 // DEBUG Flag determines if various debug features should be activated. (slow)
 // CALIBRATION Flag (not implemented) determines if the program should try gather data for curve determination instead.
-// TESTING Flag determines if program foregoes normal execution and instead determines how long some functions take to execute
+// TESTING Flag determines if program foregoes normal execution and instead performs a function race (see MAGLEV_testing.c)
 
 
 //         Uses Debug variable to select function.
@@ -30,7 +30,7 @@
 #if TESTING == 0
 #define RELEASE 0
 #define DEBUG 1
-#define CALIBRATION 0 
+#define CALIBRATION 1
 #else
 
 // Testing Override, before anything gets execed
