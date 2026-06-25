@@ -20,6 +20,7 @@ typedef struct PIDStruct {
 
 
 void initPID(PID* pid, double k, double kp, double ki, double kd);
+void initAllPIDs();
 void updatePID(PID* pid, double data, double sp);
 double getCV(PID* pid);
 void delPID(PID* pid);
