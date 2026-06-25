@@ -7,7 +7,10 @@ Potential Avenues for Improvement on the code side:
 - Investigate better Calculation options
 - Montecarlo approximator for curves (or even just data, although unsure how to interpolate)
 - Calibration version of the code; 
-    > Automatic Calibrations for assorted values; 
+    > Automatic Calibrations for assorted values;
+- More power:
+    > Currently only doing single bridge operation.
+    > Could switch to dual bridge powering.
 
 
 
@@ -17,5 +20,6 @@ Design Revisions:
 - Moar coil.
 - Potential for higher voltage ie accuracy in hall sensor? Potential dividers are great to begin with so...
 - Test hall sensor directly under coil (probably unusable but who knows)...
+- If doing floating, you'll want to swap leg B to ground permanently, leg A is Big Coil, leg C is Small Coil, Big vs Small coils need to be wound oppositely
 
 - https://www.infineon.com/assets/row/public/documents/24/49/infineon-tle493d-a2b6-datasheet-en.pdf

@@ -253,12 +253,12 @@ interrupt void ISRadc(void)
     if (currentcurrent < 0) currentcurrent = 0;
     // debug = currentcurrent;
 
-    SETDEBUG(dbchan, 50, 1)
+    // SETDEBUG(dbchan, 50, 1)
     // old
     // currentcurrent = shunt2current(currentcurrent);
 
     currentcurrent = LU_ShuntToCurrent[(int) currentcurrent];
-    SETDEBUG(dbchan, 51, 1)
+    // SETDEBUG(dbchan, 51, 1)
 
     currentcurrent = 0.05 * currentcurrent + 0.95 * prevCurrent;
     

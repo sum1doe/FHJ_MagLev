@@ -72,8 +72,8 @@ void main(void) {
     EINT;                               // Enable Global interrupt INTM
     ERTM;                               // Enable realtime emulation mode
     
-    SysCtrlRegs.SCSR |= 1; // WDOVERRIDE to 1 so the following is enabled
-    SysCtrlRegs.WDCR |= 1<<5;
+    // SysCtrlRegs.SCSR |= 1; // WDOVERRIDE to 1 so the following is enabled
+    // SysCtrlRegs.WDCR |= 1<<5;
     
     EDIS;
 

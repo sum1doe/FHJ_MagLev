@@ -8,3 +8,6 @@ Edit .cmd file, find the offending line, and put it in a ram where it will fit.
 
 'Program too slow'
 Wobble a GPIO pin to represent runtime and look at the output on an oscilloscope
+
+'Program not getting past memcpy' 
+Don't touch compiler options you don't know. When in doubt go to a version you know works and copy that over.

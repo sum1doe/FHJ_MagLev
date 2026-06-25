@@ -15,8 +15,6 @@ void InitInterrupts(void);                  // Function prototype
 void initTimer(void);
 interrupt void timerISR(void);
 
-extern void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl);
-
 #if CALIBRATION
 extern interrupt void ISRadccalibration(void);
 #else
@@ -96,14 +94,6 @@ interrupt void timerISR(void)
     else if (tempADC[7] > RecoverVoltage && currentcurrent < MaxCurrent && DutyLimit < EPWM_TIMER_TBPRD) {
         DutyLimit+=1;
     }
-
-    // if(!(CpuTimer0.InterruptCount % 1)){ 
-    //     stepPIDs((double) dist,
-    //         (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
-    //         0,
-    //         (double) currentcurrent,
-    //         &duty_cv);
-    // }
 
     // Clear interrupt flag
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
