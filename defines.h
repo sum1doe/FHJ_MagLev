@@ -30,7 +30,9 @@
 #if TESTING == 0
 #define RELEASE 0
 #define DEBUG 1
-#define CALIBRATION 1
+#define CALIBRATION 0
+// Use the following line for testing overall runtime.
+// #define UseGPIO 1
 #else
 
 // Testing Override, before anything gets execed

@@ -358,9 +358,9 @@ interrupt void ISRadc(void)
 // Testing done with 9955 ohm resistor.
 #if CALIBRATION
 __attribute__((ramfunc))
-#endif
 interrupt void ISRadccalibration(void)
 {   
+    SGPIO6();
     tempADC[0]  = (int16)(AdcResult.ADCRESULT0  & 0xFFF);// - uOffsetCh[0]; // Pot1
     tempADC[1]  = (int16)(AdcResult.ADCRESULT1  & 0xFFF);// - uOffsetCh[0]; // Pot2
     tempADC[2]  = (int16)(AdcResult.ADCRESULT2  & 0xFFF);// - uOffsetCh[0]; // Pot3
@@ -401,8 +401,10 @@ interrupt void ISRadccalibration(void)
     AdcRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;     // Clear ADCINT1 flag reinitialize for next SOC
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;   // Acknowledge interrupt to PIE
 
+    CGPIO6();
     return;
 }
+#endif
 
 
 //===========================================================================

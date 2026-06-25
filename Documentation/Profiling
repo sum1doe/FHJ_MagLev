@@ -7,5 +7,21 @@ c1 takes 230ns
 c2 takes 10us
 c3 takes 115ns
 c4 takes 160ns
-c5 takes 82-84ns (Additional testing confirms shunt2current call is the problem, inline is ineffective.)
+c5 takes 82-84us (Additional testing confirms shunt2current call is the problem, inline is ineffective.)
 c6 takes 108us
+
+===================================================
+
+Measurement after switching to Lookup Tables (Commit 3ea538a)
+
+Total is < 19 us!
+
+adc takes 276ns
+c1 takes 255ns
+c2 takes 410ns (likely due to type conversion)
+c3 takes 110ns
+c4 takes 166ns
+c5 takes 265ns
+c6 takes 343ns (3 if statements..., only when debugging)
+c60 takes 13.975us (entirely function call.)
+c69 takes 619ns (multiple type conversions, if statements, RAM writes.)

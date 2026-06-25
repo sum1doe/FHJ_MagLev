@@ -86,7 +86,7 @@ extern int16 debug;
 __attribute__((ramfunc))
 void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCurrent, double* pwmControl) {
     // Data Buffer Updates
-	SETDEBUG(dbchan, 61, 1);
+	// SETDEBUG(dbchan, 61, 1);
     
     dataIndex++;
     dataIndex %= dataIndex;
@@ -102,7 +102,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
     int acc = prevvel - vel;
 
-	SETDEBUG(dbchan, 62, 1);
+	// SETDEBUG(dbchan, 62, 1);
 
     // PID Control
     // Setpoint doesn't matter if getCV isn't called.
@@ -113,7 +113,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
         // if (vel_sp > 0.2) {
         //     vel_sp = 0.2;
         // }
-        SETDEBUG(dbchan, 63, 1);
+        // SETDEBUG(dbchan, 63, 1);
         if (dist < 500) {
             // Mag2SensorOffset in defines.h
 
@@ -122,13 +122,13 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
 
             vel_sp *= LU_AccelToCurrent[Mag2SensorOffset - dist];
         }
-        SETDEBUG(dbchan, 64, 1);
+        // SETDEBUG(dbchan, 64, 1);
 
     } else {
         vel_sp = setpoint;
     }
 
-	SETDEBUG(dbchan, 65, 1);
+	// SETDEBUG(dbchan, 65, 1);
 
 
     // double acc_sp = 0;
@@ -156,7 +156,7 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     updatePID(&current, currentCurrent, curr_sp);
     cv = getCV(&current);
     // debug = cv;
-	SETDEBUG(dbchan, 66, 1);
+	// SETDEBUG(dbchan, 66, 1);
 
 
     if (cv > 2500) {
@@ -170,6 +170,5 @@ void stepPIDs(double magDistance, double setpoint, int sp_mode, double currentCu
     // Output value.
     // *pwmControl = current2duty(curr_sp);
     // *pwmControl = curr_sp;
-	SETDEBUG(dbchan, 67, 1);
-
+	// SETDEBUG(dbchan, 67, 1);
 }

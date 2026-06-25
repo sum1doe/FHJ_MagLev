@@ -1,5 +1,5 @@
 Big Goals
-[ ] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
+[X] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
 [ ] - Ermittlung der Rechenzeiten für Multiplikation und Addition, sowie Multiply-accumulate von Integer- und Fließkommarechnung.
 [ ] - Ermittlung ob ADC Preprocessing via Hardware Möglich ist (auto-offset correction), und fals ja, verwenden.
 [ ] - Aufsetzen einer DMA zur Abholung der ADC-Daten. Alle Berechnungen würden dann im DMA-interrupt oder Task erfolgen
