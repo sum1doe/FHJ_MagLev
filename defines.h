@@ -16,6 +16,9 @@
 #define MaxCurrent 2300
 
 #define EPWM_TIMER_TBPRD  4500                  // PWM Period register 10kHz
+// Yes, this is ostensibly the dial to increase the speed. I dunno how safe it is.
+// Seems like it works just fine at 1000? I get about 45KHz from it, which is expected.
+// It does still fit 300 too (150 KHz), I'm not responsible for stuff breaking though :P
 
 #define Mag2SensorOffset 698
 
@@ -43,7 +46,10 @@
 
 // Debug function implementations.
 #if DEBUG
+#ifndef UseGPIO
 #define UseGPIO
+#endif
+
 #define SETDEBUG(n,k, v) CGPIO6(); if (n==k) {debug=v; SGPIO6();} 
 #define DBCHANGE(var, v) var = v;
 #else
