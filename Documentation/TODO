@@ -2,9 +2,13 @@ Big Goals
 [X] - Optimieren des ADC-interrupts hinsichtlich ausführungsgeschwindigkeit. Ziel wäre natürlich mehr interrupts bearbeiten zu können
 [ ] - Ermittlung der Rechenzeiten für Multiplikation und Addition, sowie Multiply-accumulate von Integer- und Fließkommarechnung.
 [ ] - Ermittlung ob ADC Preprocessing via Hardware Möglich ist (auto-offset correction), und fals ja, verwenden.
+      > If apply VREFLO/VREFHI can do 0-5V measurements.
+      > Can trigger CLA early with ADC, so can basically work on processing ADC data while processing previous data for PID
 [ ] - Aufsetzen einer DMA zur Abholung der ADC-Daten. Alle Berechnungen würden dann im DMA-interrupt oder Task erfolgen
 [ ] - Verwendung des Control loop accelerators für den ADC bzw DMA interrupt. Hier müsste man überlegen welche tasks man Parallel zur CPU sinnvollerweise ausführen sollte um die rechengeschwindigkeit zu erhöhen
+      > Could do current calculations in CLA
 [ ] - Verwendung vom Sysconfig tool. Nah Möglichkeit sollte die Hardware via sysconfig konfiguriert werden, damit eine spätere Software wartung einfacher durchgeführt werden kann.
+      > Nope.
 [ ] - gegebenfalls messung mit mehreren Hallsensoren (optional)
 
 Smaller Goals
