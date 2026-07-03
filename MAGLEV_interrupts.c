@@ -92,7 +92,7 @@ interrupt void timerISR(void)
         DutyLimit--;
     }
     else if (tempADC[7] > RecoverVoltage && currentcurrent < MaxCurrent && DutyLimit < EPWM_TIMER_TBPRD) {
-        DutyLimit+=1;
+        DutyLimit++;
     }
 
     // Clear interrupt flag
