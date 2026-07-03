@@ -10,8 +10,9 @@
 #include "F2806x_Device.h"     // DSP2833x Headerfile Include File
 #include "F2806x_Examples.h"   // DSP2833x Examples Include File
 #include "defines.h"
-#include "MAGLEV_pid.h"
-#include "MAGLEV_curves.h"
+// #include "MAGLEV_pid.h"
+#include "MAGLEV_macro_pid.h"
+// #include "MAGLEV_curves.h"
 
 int16   tempADC[14];
 
@@ -29,6 +30,9 @@ const float LU_ShuntToCurrent[1024] = {
     #include "Curves/ShuntToCurrent.dat"
 };
 
+const int16 LU_AccelToCurrent[4096] = {
+    #include "Curves/AccelToCurrent.dat"
+};
 
 #if DEBUG
 
@@ -72,6 +76,21 @@ double prevCurrent = 0;
 double m = 0.1;
 
 double duty_cv = 0;
+
+int16 dist;
+int16 prevdist;
+
+#define distanceFilter 2 // of 100
+
+PID position = {};
+PID velocity = {};
+PID acceleration = {};
+PID current = {};
+
+double velSP;
+double curSP;
+
+Uint16 sensor_data;
 
 // And now, functions declarations
 
@@ -193,8 +212,6 @@ void InitAdcRegs(void)
 }
 
 
-int16 dist;
-Uint16 sensor_data;
 #if !CALIBRATION
 __attribute__((ramfunc))
 #endif
@@ -301,11 +318,45 @@ interrupt void ISRadc(void)
     // 1: velocity
     // 2: acceleration
     // 3: current
-    stepPIDs((double) dist,
-             (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
-             0,
-             (double) currentcurrent,
-             &duty_cv);
+
+
+    // stepPIDs((double) dist,
+    //          (((double)sp/4095.0)*300.0+100.0), // Revert 0 to sp
+    //          0,
+    //          (double) currentcurrent,
+    //          &duty_cv);
+
+    // Local stepPID:
+    // Distance filter
+    // updatePID on position
+    // get velSP from position
+    // if in range, scale by LU_AccelToCurrent
+    // pass velSP to current PID
+    // get cv from current
+    // clamp 0 < cv < 2500
+    // set duty_cv = cv
+
+    dist = (prevdist*(100-distanceFilter)+dist*distanceFilter)/100;
+    prevdist = dist;
+
+    updatePID(position, dist, sp);
+    velSP = getCV(position);
+
+    if (velSP > 500) {
+        velSP *= LU_AccelToCurrent[Mag2SensorOffset - dist];
+    }
+
+    updatePID(current, currentcurrent, velSP);
+    curSP = getCV(current);
+
+    if (0 < curSP) {
+        curSP = 0;
+    }
+    if (curSP < 2500) {
+        curSP = 2500;
+    }
+    duty_cv = curSP;
+
 
 	SETDEBUG(dbchan, 69, 1);
 
