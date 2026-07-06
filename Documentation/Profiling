@@ -25,3 +25,20 @@ c5 takes 265ns
 c6 takes 343ns (3 if statements..., only when debugging)
 c60 takes 13.975us (entirely function call.)
 c69 takes 619ns (multiple type conversions, if statements, RAM writes.)
+
+===================================================
+
+Measurement after switching functions to Macros (Commit 240409d)
+
+Total is 2.787us! (when running without the Debug flag)
+Total is 4.448us (with debug flags, which are a bunch of if statements.)
+
+adc takes 277ns (@188 from SGPIO7, if statement?)
+c1 takes 254ns (@520ns)
+c2 takes 244ns (@862ns) (dunno why faster now, int typecast vs int16 didn't change speed)
+c3 takes 255ns (@1172ns)
+c4 takes 166ns (@1493ns)
+c5 takes 510ns (@1703ns) (looks like compiler moved something from previous c2 to here)
+c6 takes 343ns (@2322ns)
+c60 takes 797ns (@2710ns)
+c69 takes 631ns (@3716ns)
