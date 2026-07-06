@@ -217,7 +217,7 @@ __attribute__((ramfunc))
 #endif
 interrupt void ISRadc(void)
 {
-    SGPIO6(); // Macro includes checking for DEBUG mode.
+    // SGPIO6(); // Macro includes checking for DEBUG mode.
     SGPIO7();
     // entered every 0.1ms
     // ADC read
@@ -255,7 +255,7 @@ interrupt void ISRadc(void)
 
     // Old:
     // sensor_data += coilInterferenceFunc(prevCurrent, dir); // Apply correction for interference from Coil.
-    sensor_data += LU_CoilInterference[(int)prevCurrent];
+    sensor_data += LU_CoilInterference[(int16)prevCurrent];
 
 	SETDEBUG(dbchan, 3, sensor_data);
 
@@ -338,6 +338,8 @@ interrupt void ISRadc(void)
 
     dist = (prevdist*(100-distanceFilter)+dist*distanceFilter)/100;
     prevdist = dist;
+    
+	// SETDEBUG(dbchan, 62, 1); // takes 487ns asof PID rewrite
 
     updatePID(position, dist, sp);
     velSP = getCV(position);
@@ -345,6 +347,7 @@ interrupt void ISRadc(void)
     if (velSP > 500) {
         velSP *= LU_AccelToCurrent[Mag2SensorOffset - dist];
     }
+	// SETDEBUG(dbchan, 65, 1); // 122ns asof PID 
 
     updatePID(current, currentcurrent, velSP);
     curSP = getCV(current);
@@ -358,7 +361,7 @@ interrupt void ISRadc(void)
     duty_cv = curSP;
 
 
-	SETDEBUG(dbchan, 69, 1);
+	SETDEBUG(dbchan, 69, 1); // 288ns asof PID, to 70
 
     duty = (int16) duty_cv;
 
@@ -378,6 +381,7 @@ interrupt void ISRadc(void)
 
     duty_cv = (double) duty;
 
+	// SETDEBUG(dbchan, 70, 1); // 277ns to 71 asof PID
 
     if (!dir) {
         EPwm1Regs.CMPA.half.CMPA = duty;
@@ -390,6 +394,8 @@ interrupt void ISRadc(void)
         EPwm1Regs.CMPA.half.CMPA = 0;
         EPwm1Regs.CMPB = pwmPeriod;  
     }
+    
+	// SETDEBUG(dbchan, 71, 1); // 178ns to end asof PID
 
     prevDuty = duty;
                                                                                        
