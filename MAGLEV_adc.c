@@ -309,6 +309,9 @@ interrupt void ISRadc(void)
 			}
 		}
 
+        // Should probably use a different variable now.
+        // Also should really figure out a clean way to do a 1 shot plus a triggered change.
+
 	#endif
     
 	SETDEBUG(dbchan, 60, 1);
