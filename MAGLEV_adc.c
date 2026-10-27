@@ -386,6 +386,12 @@ interrupt void ISRadc(void)
 
 	// SETDEBUG(dbchan, 70, 1); // 277ns to 71 asof PID
 
+    #ifdef DEBUG
+        if (dbchan == 11) {
+            duty = debug; 
+        }
+    #endif
+
     if (!dir) {
         EPwm1Regs.CMPA.half.CMPA = duty;
         EPwm1Regs.CMPB = 0;

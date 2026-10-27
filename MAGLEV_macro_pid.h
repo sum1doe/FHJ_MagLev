@@ -28,17 +28,13 @@ void initAllPIDs();
 
 // I know it's bad practice, sorry...
 // The \ here is to escape the newline, allowing multiline defines
-#define getCV(pid)\
-    pid.k * (doP(pid) + doI(pid) - doD(pid))
+#define getCV(pid) pid.k * (doP(pid) + doI(pid) - doD(pid))
 
-#define doP(pid) \
-    pid.kp * (pid.sp - pid.data)
+#define doP(pid) pid.kp * (pid.sp - pid.data)
 
-#define doI(pid) \
-    pid.prevI = pid.kM * (pid.sp - pid.data) + (1-pid.kM) * pid.prevI
+#define doI(pid) (pid.prevI = pid.kM * (pid.sp - pid.data) + (1-pid.kM) * pid.prevI)
 
-#define doD(pid) \
-    pid.kd * (pid.data-pid.prevData)
+#define doD(pid) pid.kd * (pid.data-pid.prevData)
 
 // You only need to implement StepPIDs yourself, wherever.
 
